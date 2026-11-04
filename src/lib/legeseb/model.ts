@@ -66,10 +66,11 @@ export const PRESETS: Industry[] = [
 ];
 
 export const DEFAULT_STAGES: Stage[] = [
-  { id: "new", name: "New" },
-  { id: "qualified", name: "Qualified" },
-  { id: "contacted", name: "Contacted" },
-  { id: "proposal", name: "Proposal / Offer" },
+  // Verified from the reference project (read-only): editable in Settings.
+  { id: "discovered", name: "Discovered" },
+  { id: "ready", name: "Active Ready" },
+  { id: "pitched", name: "Pitched" },
+  { id: "viewed", name: "Viewed" },
   { id: "won", name: "Won" },
 ];
 
