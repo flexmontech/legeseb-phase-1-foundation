@@ -27,7 +27,7 @@ describe("LEGESEB model", () => {
   });
   it("moves a prospect to another stage", () => {
     const s = createSeedState();
-    const id = s.prospects[0].id;
-    expect(moveProspect(s, id, "won").prospects[0].stageId).toBe("won");
+    const id = s.prospects[0]!.id;
+    expect(moveProspect(s, id, "won").prospects[0]!.stageId).toBe("won");
   });
 });

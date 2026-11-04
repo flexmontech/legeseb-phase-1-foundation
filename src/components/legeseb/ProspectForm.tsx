@@ -22,7 +22,7 @@ export function ProspectForm({
 }) {
   const s = useAppState();
   const defaultInd =
-    initial?.industryId ?? (s.activeIndustryId !== "all" ? s.activeIndustryId : s.industries[0].id);
+    initial?.industryId ?? (s.activeIndustryId !== "all" ? s.activeIndustryId : s.industries[0]?.id ?? "general");
   const [f, setF] = useState<ProspectInput>({
     name: "",
     businessName: "",
@@ -31,9 +31,9 @@ export function ProspectForm({
     email: "",
     phone: "",
     website: "",
-    source: LEAD_SOURCES[0],
+    source: LEAD_SOURCES[0]!,
     service: "",
-    stageId: s.stages[0].id,
+    stageId: s.stages[0]?.id ?? "discovered",
     notes: "",
     ...initial,
   });

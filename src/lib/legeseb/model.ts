@@ -98,7 +98,7 @@ export function createSeedState(now = new Date().toISOString()): AppState {
         industryId: ind.id,
         type: b2b ? "B2B" : "B2C",
         email: `demo${n + 1}@example.com`,
-        source: LEAD_SOURCES[n % LEAD_SOURCES.length],
+        source: LEAD_SOURCES[n % LEAD_SOURCES.length]!,
         service: ind.services[j % ind.services.length],
         stageId: DEFAULT_STAGES[n % DEFAULT_STAGES.length]!.id,
         notes: "Fictional demo record — not a real person or business.",
