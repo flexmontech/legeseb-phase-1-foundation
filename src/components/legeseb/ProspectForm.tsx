@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppState } from "@/lib/legeseb/store";
 import { LEAD_SOURCES, type Prospect, type TargetType } from "@/lib/legeseb/model";
@@ -122,9 +121,6 @@ export function ProspectForm({
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="grid gap-1.5">
-      <Label>{label}</Label>
-      {children}
-    </div>
+<label className="grid gap-1.5 text-sm font-medium">{label}{children}</label>
   );
 }

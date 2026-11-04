@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { resetDemo, update, useAppState } from "@/lib/legeseb/store";
 import { addIndustry, type TargetType } from "@/lib/legeseb/model";
 
@@ -115,5 +114,5 @@ function SettingsPage() {
 }
 
 function F({ label, children }: { label: string; children: React.ReactNode }) {
-  return <div className="grid gap-1.5"><Label>{label}</Label>{children}</div>;
+  return <label className="grid gap-1.5 text-sm font-medium">{label}{children}</label>;
 }
