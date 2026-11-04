@@ -33,7 +33,7 @@ function Dashboard() {
         <Stat label={`Total ${plural.toLowerCase()}`} value={list.length} />
         <Stat label="B2B" value={b2b} />
         <Stat label="B2C" value={list.length - b2b} />
-        <Stat label={s.stages[s.stages.length - 1].name} value={counts[counts.length - 1].count} />
+        <Stat label={s.stages.at(-1)?.name ?? "Final stage"} value={counts.at(-1)?.count ?? 0} />
       </div>
       <section className="rounded-lg border border-border bg-card p-5">
         <h2 className="mb-4 font-medium">Pipeline summary</h2>
