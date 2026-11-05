@@ -26,7 +26,7 @@ function DraftEditor({ prospect, campaign, channel }: { prospect: Prospect; camp
     <p className="text-xs text-muted-foreground">Draft only · {campaign.name} · Nothing is sent and no call is initiated. Confirm permission and review all facts before use.</p>
     {!ready && <p role="alert" className="text-sm">Complete client identity, actual services, objective and call to action before creating a draft.</p>}
     {channel === "email" && <label className="grid gap-1.5 text-sm">Subject<Input value={draft.subject} onChange={e => { setDraft(x => ({ ...x, subject: e.target.value })); setStatus("Unsaved changes"); }} /></label>}
-    <label className="grid gap-1.5 text-sm">{channel === "call" ? "Call script draft" : "Message draft"}<Textarea rows={10} value={draft.body} onChange={e => { setDraft(x => ({ ...x, body: e.target.value })); setStatus("Unsaved changes"); }} /></label>
+    <label className="grid gap-1.5 text-sm">{channel === "call" ? "Call script draft" : "Message draft"}<Textarea aria-label={channel === "call" ? "Call script draft" : "Message draft"} rows={10} value={draft.body} onChange={e => { setDraft(x => ({ ...x, body: e.target.value })); setStatus("Unsaved changes"); }} /></label>
     <div className="flex flex-wrap gap-2">
       <Button disabled={!draft.body.trim()} onClick={() => {
         update(st => ({ ...st, drafts: [...(st.drafts ?? []).filter(d => !(d.prospectId === prospect.id && d.campaignId === campaign.id && d.channel === channel)), { ...draft, id: saved?.id ?? uid(), prospectId: prospect.id, campaignId: campaign.id, channel, updatedAt: new Date().toISOString() }] })); setStatus("Draft saved.");
