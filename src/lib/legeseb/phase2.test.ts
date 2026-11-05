@@ -44,7 +44,7 @@ describe("Phase 2", () => {
   it("honors campaign configured weights and shows zero for known mismatch", () => {
     const result = qualify(prospect, { ...campaign, criteria: [{ id: "location", field: "location", label: "Location", expected: "London", points: 25 }, { id: "email", field: "email", label: "Email", expected: "", points: 75 }] });
     const mismatch = qualify({ ...prospect, location: "Paris" }, { ...campaign, criteria: [{ id: "location", field: "location", label: "Location", expected: "London", points: 25 }] });
-    expect(result.score).toBe(100); expect(result.coverage).toBe(75); expect(mismatch.score).toBe(0); expect(mismatch.factors[0]?.earned).toBe(null);
+    expect(result.score).toBe(100); expect(result.coverage).toBe(75); expect(mismatch.score).toBe(0); expect(mismatch.factors[0]?.earned).toBe(0);
   });
   it("returns unknown for entirely missing factors", () => {
     expect(qualify({ ...prospect, website: "" }, { ...campaign, webReadiness: true, criteria: [{ id: "web", field: "website", label: "Website", expected: "", points: 10 }] }).score).toBe(null);

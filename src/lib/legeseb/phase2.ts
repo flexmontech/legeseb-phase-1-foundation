@@ -50,7 +50,7 @@ export function qualify(p: Prospect, campaign: Campaign) {
       }
     }
     const possible = Math.max(0, c.points);
-    return { ...c, status, observed, possible, earned: status === "match" ? possible : null };
+    return { ...c, status, observed, possible, earned: status === "unknown" ? null : status === "match" ? possible : 0 };
   });
   const known = factors.filter(f => f.status !== "unknown");
   const earned = known.reduce((sum, f) => sum + (f.earned ?? 0), 0);

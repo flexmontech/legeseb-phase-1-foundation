@@ -8,7 +8,7 @@ import { defaultCriteria, FACTOR_FIELDS, type Campaign, type FactorField } from 
 import { Plus, Trash2 } from "lucide-react";
 
 const sel = "h-9 w-full rounded-md border border-input bg-card px-2 text-sm";
-export function CampaignEditor({ initial, onClose }: { initial?: Campaign; onClose: (id?: string) => void }) {
+export function CampaignEditor({ initial, onClose }: { initial?: Campaign | undefined; onClose: (id?: string) => void }) {
   const s = useAppState();
   const industryId = s.activeIndustryId !== "all" ? s.activeIndustryId : s.industries[0]?.id ?? "general";
   const type = s.industries.find(i => i.id === industryId)?.targetType ?? "B2C";

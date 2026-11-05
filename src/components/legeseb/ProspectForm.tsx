@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAppState } from "@/lib/legeseb/store";
 import { LEAD_SOURCES, type Prospect, type TargetType } from "@/lib/legeseb/model";
 
-export type ProspectInput = Omit<Prospect, "id" | "workspaceId" | "createdAt" | "updatedAt" | "demo">;
+export type ProspectInput = Omit<Prospect, "id" | "workspaceId" | "createdAt" | "updatedAt">;
 
 const sel = "h-9 w-full rounded-md border border-input bg-card px-2 text-sm";
 

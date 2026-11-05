@@ -29,10 +29,10 @@ export interface Prospect {
   service?: string | undefined;
   stageId: string;
   notes: string;
-  recordSource?: "Manual" | "Imported" | "Demo" | "Connected provider";
+  recordSource?: "Manual" | "Imported" | "Demo" | "Connected provider" | undefined;
   sourceDetail?: string;
   location?: string;
-  authorizedSource?: boolean;
+  authorizedSource?: boolean | undefined;
   campaignId?: string;
   demo?: boolean;
   createdAt: string;
