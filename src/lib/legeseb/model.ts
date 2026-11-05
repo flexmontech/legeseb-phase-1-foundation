@@ -29,6 +29,11 @@ export interface Prospect {
   service?: string | undefined;
   stageId: string;
   notes: string;
+  recordSource?: "Manual" | "Imported" | "Demo" | "Connected provider" | undefined;
+  sourceDetail?: string;
+  location?: string;
+  authorizedSource?: boolean | undefined;
+  campaignId?: string;
   demo?: boolean;
   createdAt: string;
   updatedAt: string;
@@ -48,6 +53,8 @@ export interface AppState {
   industries: Industry[];
   stages: Stage[];
   prospects: Prospect[];
+  campaigns?: import("./phase2").Campaign[];
+  drafts?: import("./phase2").OutreachDraft[];
 }
 
 export const ALL = "all";
@@ -98,9 +105,10 @@ export function createSeedState(now = new Date().toISOString()): AppState {
         industryId: ind.id,
         type: b2b ? "B2B" : "B2C",
         email: `demo${n + 1}@example.com`,
-        source: LEAD_SOURCES[n % LEAD_SOURCES.length]!,
+         source: LEAD_SOURCES[n % LEAD_SOURCES.length] ?? "Other",
         service: ind.services[j % ind.services.length],
-        stageId: DEFAULT_STAGES[n % DEFAULT_STAGES.length]!.id,
+         stageId: DEFAULT_STAGES[n % DEFAULT_STAGES.length]?.id ?? "discovered",
+         recordSource: "Demo",
         notes: "Fictional demo record — not a real person or business.",
         demo: true,
         createdAt: now,

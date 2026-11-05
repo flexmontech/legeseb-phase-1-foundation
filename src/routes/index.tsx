@@ -5,6 +5,8 @@ import { filterByIndustry, stageCounts } from "@/lib/legeseb/model";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Dashboard — LEGESEB" },
       { name: "description", content: "LEGESEB prospect counts and pipeline summary." },
       { property: "og:title", content: "Dashboard — LEGESEB" },

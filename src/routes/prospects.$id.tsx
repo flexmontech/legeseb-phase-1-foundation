@@ -4,10 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProspectForm } from "@/components/legeseb/ProspectForm";
 import { update, useAppState } from "@/lib/legeseb/store";
+import { Qualification } from "@/components/legeseb/Qualification";
+import { OutreachDrafts } from "@/components/legeseb/OutreachDrafts";
+import { provenance } from "@/lib/legeseb/phase2";
 
 export const Route = createFileRoute("/prospects/$id")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Prospect details — LEGESEB" },
       { name: "description", content: "View and edit a prospect in LEGESEB." },
       { property: "og:title", content: "Prospect details — LEGESEB" },
@@ -32,6 +37,7 @@ function Detail() {
     );
 
   const ind = s.industries.find((i) => i.id === p.industryId);
+  const campaign = s.campaigns?.find(c => c.id === p.campaignId);
   const rows: [string, string | undefined][] = [
     ["Business", p.businessName],
     ["Industry", ind?.name],
@@ -39,6 +45,10 @@ function Detail() {
     ["Service", p.service],
     ["Stage", s.stages.find((x) => x.id === p.stageId)?.name],
     ["Lead source", p.source],
+    ["Record source", provenance(p)],
+    ["Source details", p.sourceDetail],
+    ["Authorized source", p.authorizedSource === undefined ? "Unknown" : p.authorizedSource ? "Confirmed" : "Not confirmed"],
+    ["Location", p.location],
     ["Email", p.email],
     ["Phone", p.phone],
     ["Website", p.website],
@@ -97,6 +107,12 @@ function Detail() {
           </dl>
         )}
       </div>
+      {!editing && <>
+        <label className="grid gap-1.5 text-sm">Campaign<select aria-label="Prospect campaign" className="h-9 rounded-md border border-input bg-card px-2 text-sm" value={p.campaignId ?? ""} onChange={e => update(st => ({ ...st, prospects: st.prospects.map(x => x.id === p.id ? { ...x, campaignId: e.target.value, updatedAt: new Date().toISOString() } : x) }))}>
+          <option value="">Not assigned</option>{s.campaigns?.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+        </select></label>
+        {campaign ? <><Qualification prospect={p} campaign={campaign} /><OutreachDrafts prospect={p} campaign={campaign} /></> : <Link to="/discovery" className="text-sm text-primary underline">Find prospects & campaigns</Link>}
+      </>}
     </div>
   );
 }

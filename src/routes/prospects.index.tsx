@@ -6,10 +6,13 @@ import { Badge } from "@/components/ui/badge";
 import { ProspectForm } from "@/components/legeseb/ProspectForm";
 import { update, useAppState, useActiveIndustry } from "@/lib/legeseb/store";
 import { filterByIndustry, uid } from "@/lib/legeseb/model";
+import { provenance } from "@/lib/legeseb/phase2";
 
 export const Route = createFileRoute("/prospects/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Prospects — LEGESEB" },
       { name: "description", content: "Search, filter and manage prospects in LEGESEB." },
       { property: "og:title", content: "Prospects — LEGESEB" },
@@ -102,6 +105,7 @@ function Prospects() {
                 <th className="p-3">Type</th>
                 <th className="p-3">Stage</th>
                 <th className="p-3">Source</th>
+                 <th className="p-3">Record source</th>
               </tr>
             </thead>
             <tbody>
@@ -118,6 +122,7 @@ function Prospects() {
                   <td className="p-3">{p.type}</td>
                   <td className="p-3">{stageName(p.stageId)}</td>
                   <td className="p-3">{p.source}</td>
+                   <td className="p-3">{provenance(p)}</td>
                 </tr>
               ))}
             </tbody>
