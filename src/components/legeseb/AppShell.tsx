@@ -1,12 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
-import { LayoutDashboard, Users, KanbanSquare, Settings } from "lucide-react";
+import { LayoutDashboard, Users, KanbanSquare, Settings, Search } from "lucide-react";
 import { useAppState, update } from "@/lib/legeseb/store";
 import { ALL, setActiveIndustry } from "@/lib/legeseb/model";
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
   { to: "/prospects", label: "Prospects", icon: Users },
+  { to: "/discovery", label: "Find prospects", icon: Search },
   { to: "/pipeline", label: "Pipeline", icon: KanbanSquare },
   { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
@@ -64,7 +65,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </header>
         <main className="flex-1 px-4 py-6 md:px-8">{mounted ? children : null}</main>
         <footer className="border-t border-border px-4 py-3 text-xs text-muted-foreground md:px-8">
-          LEGESEB · Phase 1 foundation · Data is saved in this browser only
+          LEGESEB · Data is saved in this browser only
         </footer>
       </div>
     </div>
