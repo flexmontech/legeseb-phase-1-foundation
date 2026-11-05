@@ -31,7 +31,8 @@ export function ProspectForm({
     email: "",
     phone: "",
     website: "",
-    source: LEAD_SOURCES[0]!,
+     source: LEAD_SOURCES[0] ?? "Other",
+     recordSource: "Manual",
     service: "",
     stageId: s.stages[0]?.id ?? "discovered",
     notes: "",
@@ -45,7 +46,8 @@ export function ProspectForm({
       className="grid gap-4 sm:grid-cols-2"
       onSubmit={(e) => {
         e.preventDefault();
-        if (!f.name.trim()) return;
+         if (!f.name.trim()) return;
+         if (f.type === "B2C" && !f.demo && (!f.authorizedSource || !f.sourceDetail?.trim())) return;
         onSubmit({ ...f, name: f.name.trim() });
       }}
     >
@@ -99,6 +101,16 @@ export function ProspectForm({
       <Field label="Website (optional)">
         <Input value={f.website ?? ""} onChange={(e) => set("website", e.target.value)} />
       </Field>
+      <Field label="Location (optional)">
+        <Input value={f.location ?? ""} onChange={(e) => set("location", e.target.value)} />
+      </Field>
+      <Field label={`Source details${f.type === "B2C" && !f.demo ? " *" : " (optional)"}`}>
+        <Input required={f.type === "B2C" && !f.demo} value={f.sourceDetail ?? ""} onChange={(e) => set("sourceDetail", e.target.value)} />
+      </Field>
+      <label className="flex items-start gap-2 text-sm sm:col-span-2">
+        <input type="checkbox" required={f.type === "B2C" && !f.demo} checked={f.authorizedSource ?? false} onChange={(e) => set("authorizedSource", e.target.checked)} />
+        Authorized client-provided or consent-based source{f.type === "B2C" && !f.demo ? " *" : ""}
+      </label>
       <Field label="Pipeline stage">
         <select className={sel} value={f.stageId} onChange={(e) => set("stageId", e.target.value)}>
           {s.stages.map((st) => (

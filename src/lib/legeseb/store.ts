@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { createSeedState, type AppState } from "./model";
+import { normalizeState } from "./phase2";
 
 const KEY = "legeseb:v1";
 let state: AppState | null = null;
@@ -9,7 +10,7 @@ function load(): AppState {
   if (state) return state;
   try {
     const raw = localStorage.getItem(KEY);
-    state = raw ? (JSON.parse(raw) as AppState) : createSeedState();
+     state = normalizeState(raw ? (JSON.parse(raw) as AppState) : createSeedState());
   } catch {
     state = createSeedState();
   }
