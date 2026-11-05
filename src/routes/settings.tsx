@@ -8,6 +8,8 @@ import { addIndustry, type TargetType } from "@/lib/legeseb/model";
 export const Route = createFileRoute("/settings")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Settings — LEGESEB" },
       { name: "description", content: "Client profile, industries and pipeline stages for LEGESEB." },
       { property: "og:title", content: "Settings — LEGESEB" },

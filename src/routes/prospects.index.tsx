@@ -11,6 +11,8 @@ import { provenance } from "@/lib/legeseb/phase2";
 export const Route = createFileRoute("/prospects/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Prospects — LEGESEB" },
       { name: "description", content: "Search, filter and manage prospects in LEGESEB." },
       { property: "og:title", content: "Prospects — LEGESEB" },

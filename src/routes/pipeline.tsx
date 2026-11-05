@@ -5,6 +5,8 @@ import { filterByIndustry, moveProspect } from "@/lib/legeseb/model";
 export const Route = createFileRoute("/pipeline")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Pipeline — LEGESEB" },
       { name: "description", content: "Move prospects through the LEGESEB pipeline stages." },
       { property: "og:title", content: "Pipeline — LEGESEB" },
