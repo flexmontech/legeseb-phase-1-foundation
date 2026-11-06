@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAppState, useActiveIndustry } from "@/lib/legeseb/store";
 import { filterByIndustry, stageCounts } from "@/lib/legeseb/model";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },
