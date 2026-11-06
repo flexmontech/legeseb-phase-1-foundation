@@ -39,7 +39,7 @@ function Pipeline() {
                     <Link to="/prospects/$id" params={{ id: p.id }} className="font-medium text-primary hover:underline">
                       {p.name}
                     </Link>
-                    <div className="text-xs text-muted-foreground">{p.businessName || p.type}</div>
+                    <div className="text-xs text-muted-foreground">{p.businessName && p.businessName !== p.name ? p.businessName : p.type}</div>
                     <select
                       aria-label={`Stage for ${p.name}`}
                       className="mt-2 h-8 w-full rounded border border-input bg-card px-1 text-xs"
