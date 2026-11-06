@@ -1,3 +1,4 @@
+import { CHICAGO_LEADS } from "./chicagoLeads";
 export type TargetType = "B2B" | "B2C";
 
 export interface Industry {
@@ -69,6 +70,10 @@ export const PRESETS: Industry[] = [
   { id: "realestate", name: "Real estate", services: ["Buying", "Selling", "Property management"], prospectSingular: "Lead", prospectPlural: "Leads", targetType: "B2C" },
   { id: "itai", name: "IT and AI services", services: ["Managed IT", "AI automation", "Cloud migration"], prospectSingular: "Company", prospectPlural: "Companies", targetType: "B2B" },
   { id: "nails", name: "Nail salons", services: ["Manicure", "Pedicure", "Nail art"], prospectSingular: "Client", prospectPlural: "Clients", targetType: "B2C" },
+  { id: "restaurants", name: "Restaurants", services: ["Online ordering", "Reservations", "Catering"], prospectSingular: "Restaurant", prospectPlural: "Restaurants", targetType: "B2C" },
+  { id: "bars", name: "Bars and cocktail lounges", services: ["Private events", "Promotions"], prospectSingular: "Venue", prospectPlural: "Venues", targetType: "B2C" },
+  { id: "clinics", name: "Clinics and medical practices", services: ["Appointments", "Patient intake"], prospectSingular: "Practice", prospectPlural: "Practices", targetType: "B2C" },
+  { id: "roofing", name: "Roofing contractors", services: ["Inspection", "Repair", "Replacement"], prospectSingular: "Contractor", prospectPlural: "Contractors", targetType: "B2C" },
   { id: "general", name: "General / Other", services: ["Consultation", "Standard service"], prospectSingular: "Prospect", prospectPlural: "Prospects", targetType: "B2C" },
 ];
 
@@ -92,36 +97,32 @@ export function slugify(s: string) {
 }
 
 export function createSeedState(now = new Date().toISOString()): AppState {
-  const prospects: Prospect[] = [];
-  PRESETS.forEach((ind, i) => {
-    [0, 1].forEach((j) => {
-      const n = i * 2 + j;
-      const b2b = ind.targetType === "B2B" || j === 1;
-      prospects.push({
-        id: `demo-${ind.id}-${j + 1}`,
-        workspaceId: DEMO_WORKSPACE_ID,
-        name: `Demo ${ind.prospectSingular} ${j + 1}`,
-        businessName: b2b ? `Fictional ${ind.name.split(" ")[0]} Co. (demo)` : undefined,
-        industryId: ind.id,
-        type: b2b ? "B2B" : "B2C",
-        email: `demo${n + 1}@example.com`,
-         source: LEAD_SOURCES[n % LEAD_SOURCES.length] ?? "Other",
-        service: ind.services[j % ind.services.length],
-         stageId: DEFAULT_STAGES[n % DEFAULT_STAGES.length]?.id ?? "discovered",
-         recordSource: "Demo",
-        notes: "Fictional demo record — not a real person or business.",
-        demo: true,
-        createdAt: now,
-        updatedAt: now,
-      });
-    });
-  });
+  const prospects: Prospect[] = CHICAGO_LEADS.map((l, i) => ({
+    id: `chi-${i + 1}`,
+    workspaceId: DEMO_WORKSPACE_ID,
+    name: l.contact || l.businessName,
+    businessName: l.businessName,
+    industryId: l.industryId,
+    type: l.type,
+    email: l.email || undefined,
+    phone: l.phone || undefined,
+    website: l.website || undefined,
+    location: l.location,
+    source: "Other",
+    sourceDetail: l.sourceUrl,
+    stageId: "discovered",
+    recordSource: "Imported",
+    authorizedSource: true,
+    notes: l.notes,
+    createdAt: now,
+    updatedAt: now,
+  }));
   return {
     version: 1,
     workspace: {
       id: DEMO_WORKSPACE_ID,
-      name: "Demo Client Workspace",
-      description: "A fictional business used to demonstrate LEGESEB.",
+      name: "Chicago Pilot Workspace",
+      description: "Audited Chicago-area prospects from published business contacts.",
       contactEmail: "",
     },
     activeIndustryId: ALL,
