@@ -28,14 +28,14 @@ function Pipeline() {
         {s.stages.map((st) => {
           const items = list.filter((p) => p.stageId === st.id);
           return (
-            <section key={st.id} className="rounded-lg border border-border bg-muted p-3">
+            <section key={st.id} className="rounded-xl border border-border bg-muted/60 p-3">
               <h2 className="mb-3 flex justify-between text-sm font-medium">
                 {st.name} <span className="text-muted-foreground">{items.length}</span>
               </h2>
               {items.length === 0 && <p className="text-xs text-muted-foreground">No {(ind?.prospectPlural ?? "prospects").toLowerCase()} here.</p>}
               <ul className="space-y-2">
                 {items.map((p) => (
-                  <li key={p.id} className="rounded-md border border-border bg-card p-3 text-sm">
+                  <li key={p.id} className="rounded-lg border border-border bg-card p-3 text-sm shadow-sm">
                     <Link to="/prospects/$id" params={{ id: p.id }} className="font-medium text-primary hover:underline">
                       {p.name}
                     </Link>
