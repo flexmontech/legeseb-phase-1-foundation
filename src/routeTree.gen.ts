@@ -9,13 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as AudiencesRouteImport } from './routes/audiences'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DiscoveryRouteImport } from './routes/discovery'
+import { Route as IndustriesRouteImport } from './routes/industries'
+import { Route as InternalRouteImport } from './routes/internal'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ProspectsIndexRouteImport } from './routes/prospects.index'
 import { Route as ProspectsIdRouteImport } from './routes/prospects.$id'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AudiencesRoute = AudiencesRouteImport.update({
+  id: '/audiences',
+  path: '/audiences',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -24,6 +38,16 @@ const DashboardRoute = DashboardRouteImport.update({
 const DiscoveryRoute = DiscoveryRouteImport.update({
   id: '/discovery',
   path: '/discovery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesRoute = IndustriesRouteImport.update({
+  id: '/industries',
+  path: '/industries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InternalRoute = InternalRouteImport.update({
+  id: '/internal',
+  path: '/internal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PipelineRoute = PipelineRouteImport.update({
@@ -48,16 +72,24 @@ const ProspectsIdRoute = ProspectsIdRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/audiences': typeof AudiencesRoute
   '/dashboard': typeof DashboardRoute
   '/discovery': typeof DiscoveryRoute
+  '/industries': typeof IndustriesRoute
+  '/internal': typeof InternalRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/prospects/$id': typeof ProspectsIdRoute
   '/prospects/': typeof ProspectsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/audiences': typeof AudiencesRoute
   '/dashboard': typeof DashboardRoute
   '/discovery': typeof DiscoveryRoute
+  '/industries': typeof IndustriesRoute
+  '/internal': typeof InternalRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/prospects/$id': typeof ProspectsIdRoute
@@ -65,8 +97,12 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/audiences': typeof AudiencesRoute
   '/dashboard': typeof DashboardRoute
   '/discovery': typeof DiscoveryRoute
+  '/industries': typeof IndustriesRoute
+  '/internal': typeof InternalRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/prospects/$id': typeof ProspectsIdRoute
@@ -75,24 +111,36 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
+    | '/audiences'
     | '/dashboard'
     | '/discovery'
+    | '/industries'
+    | '/internal'
     | '/pipeline'
     | '/settings'
     | '/prospects/$id'
     | '/prospects/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
+    | '/audiences'
     | '/dashboard'
     | '/discovery'
+    | '/industries'
+    | '/internal'
     | '/pipeline'
     | '/settings'
     | '/prospects/$id'
     | '/prospects'
   id:
     | '__root__'
+    | '/'
+    | '/audiences'
     | '/dashboard'
     | '/discovery'
+    | '/industries'
+    | '/internal'
     | '/pipeline'
     | '/settings'
     | '/prospects/$id'
@@ -100,8 +148,12 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  AudiencesRoute: typeof AudiencesRoute
   DashboardRoute: typeof DashboardRoute
   DiscoveryRoute: typeof DiscoveryRoute
+  IndustriesRoute: typeof IndustriesRoute
+  InternalRoute: typeof InternalRoute
   PipelineRoute: typeof PipelineRoute
   SettingsRoute: typeof SettingsRoute
   ProspectsIdRoute: typeof ProspectsIdRoute
@@ -110,6 +162,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audiences': {
+      id: '/audiences'
+      path: '/audiences'
+      fullPath: '/audiences'
+      preLoaderRoute: typeof AudiencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -122,6 +188,20 @@ declare module '@tanstack/react-router' {
       path: '/discovery'
       fullPath: '/discovery'
       preLoaderRoute: typeof DiscoveryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries': {
+      id: '/industries'
+      path: '/industries'
+      fullPath: '/industries'
+      preLoaderRoute: typeof IndustriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/internal': {
+      id: '/internal'
+      path: '/internal'
+      fullPath: '/internal'
+      preLoaderRoute: typeof InternalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pipeline': {
@@ -156,8 +236,12 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AudiencesRoute: AudiencesRoute,
   DashboardRoute: DashboardRoute,
   DiscoveryRoute: DiscoveryRoute,
+  IndustriesRoute: IndustriesRoute,
+  InternalRoute: InternalRoute,
   PipelineRoute: PipelineRoute,
   SettingsRoute: SettingsRoute,
   ProspectsIdRoute: ProspectsIdRoute,
