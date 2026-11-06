@@ -9,16 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DiscoveryRouteImport } from './routes/discovery'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ProspectsIndexRouteImport } from './routes/prospects.index'
 import { Route as ProspectsIdRouteImport } from './routes/prospects.$id'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DiscoveryRoute = DiscoveryRouteImport.update({
@@ -48,7 +48,7 @@ const ProspectsIdRoute = ProspectsIdRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/discovery': typeof DiscoveryRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
@@ -56,7 +56,7 @@ export interface FileRoutesByFullPath {
   '/prospects/': typeof ProspectsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/discovery': typeof DiscoveryRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
@@ -65,7 +65,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/discovery': typeof DiscoveryRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
@@ -75,7 +75,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
+    | '/dashboard'
     | '/discovery'
     | '/pipeline'
     | '/settings'
@@ -83,7 +83,7 @@ export interface FileRouteTypes {
     | '/prospects/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
+    | '/dashboard'
     | '/discovery'
     | '/pipeline'
     | '/settings'
@@ -91,7 +91,7 @@ export interface FileRouteTypes {
     | '/prospects'
   id:
     | '__root__'
-    | '/'
+    | '/dashboard'
     | '/discovery'
     | '/pipeline'
     | '/settings'
@@ -100,7 +100,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
   DiscoveryRoute: typeof DiscoveryRoute
   PipelineRoute: typeof PipelineRoute
   SettingsRoute: typeof SettingsRoute
@@ -110,11 +110,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/discovery': {
@@ -156,7 +156,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
   DiscoveryRoute: DiscoveryRoute,
   PipelineRoute: PipelineRoute,
   SettingsRoute: SettingsRoute,
