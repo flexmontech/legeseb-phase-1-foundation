@@ -1,71 +1,108 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useAppState, useActiveIndustry } from "@/lib/legeseb/store";
-import { filterByIndustry, stageCounts } from "@/lib/legeseb/model";
+import { Search, Target, KanbanSquare, PenLine, ArrowRight } from "lucide-react";
+import hero from "@/assets/hero-chicago.jpg";
+import b2b from "@/assets/aud-b2b.jpg";
+import b2c from "@/assets/aud-b2c.jpg";
+import industries from "@/assets/industries.jpg";
+import { useAppState } from "@/lib/legeseb/store";
+import { INDUSTRY_CATALOG } from "@/lib/legeseb/industryCatalog";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { title: "LEGESEB — Find and win customers in any industry" },
+      { name: "description", content: "LEGESEB helps businesses find, qualify and win prospects across every industry, from Chicago outward." },
+      { property: "og:title", content: "LEGESEB — Find and win customers in any industry" },
+      { property: "og:description", content: "One lead-generation template for every industry: search, qualify, draft outreach, and track your pipeline." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "Dashboard — LEGESEB" },
-      { name: "description", content: "LEGESEB prospect counts and pipeline summary." },
-      { property: "og:title", content: "Dashboard — LEGESEB" },
-      { property: "og:description", content: "LEGESEB prospect counts and pipeline summary." },
     ],
   }),
-  component: Dashboard,
+  component: Home,
 });
 
-function Dashboard() {
-  const s = useAppState();
-  const ind = useActiveIndustry();
-  const list = filterByIndustry(s.prospects, s.activeIndustryId);
-  const counts = stageCounts(list, s.stages);
-  const max = Math.max(1, ...counts.map((c) => c.count));
-  const plural = ind?.prospectPlural ?? "Prospects";
-  const b2b = list.filter((p) => p.type === "B2B").length;
+const STEPS = [
+  { icon: Target, title: "Pick your audience", text: "Choose B2B or B2C and the industry you want to reach.", to: "/audiences" },
+  { icon: Search, title: "Search industries", text: "Browse 165+ industries and turn any into a target.", to: "/industries" },
+  { icon: PenLine, title: "Find & qualify", text: "Add or import prospects and see transparent match scores.", to: "/discovery" },
+  { icon: KanbanSquare, title: "Work the pipeline", text: "Move prospects from Discovered to Won.", to: "/pipeline" },
+] as const;
 
+function Home() {
+  const s = useAppState();
+  const won = s.prospects.filter((p) => p.stageId === s.stages.at(-1)?.id).length;
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">{ind ? ind.name : "All industries"}</p>
-      </div>
-      <div className="grid gap-3 sm:grid-cols-4">
-        <Stat label={`Total ${plural.toLowerCase()}`} value={list.length} />
-        <Stat label="B2B" value={b2b} />
-        <Stat label="B2C" value={list.length - b2b} />
-        <Stat label={s.stages.at(-1)?.name ?? "Final stage"} value={counts.at(-1)?.count ?? 0} />
-      </div>
-      <section className="rounded-lg border border-border bg-card p-5">
-        <h2 className="mb-4 font-medium">Pipeline summary</h2>
-        {list.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
-            No {plural.toLowerCase()} yet. <Link to="/prospects" className="text-accent underline">Add one</Link>.
+    <div>
+      <section className="relative isolate overflow-hidden">
+        <img src={hero} alt="Chicago skyline at golden hour" width={1920} height={1088} className="absolute inset-0 -z-10 h-full w-full object-cover" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-sidebar via-sidebar/80 to-sidebar/20" />
+        <div className="mx-auto max-w-7xl px-6 py-24 text-sidebar-foreground md:py-36">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] opacity-80">Lead generation · Every industry</p>
+          <h1 className="max-w-2xl text-4xl font-semibold leading-tight md:text-6xl">
+            Find the customers your business was built for.
+          </h1>
+          <p className="mt-5 max-w-xl text-lg opacity-85">
+            One template, any industry. Search markets, qualify prospects honestly, draft outreach, and track every deal to the win.
           </p>
-        ) : (
-          <ul className="space-y-3">
-            {counts.map(({ stage, count }) => (
-              <li key={stage.id} className="grid grid-cols-[8rem_1fr_2rem] items-center gap-3 text-sm">
-                <span>{stage.name}</span>
-                <div className="h-3 rounded bg-muted">
-                  <div className="h-3 rounded bg-primary" style={{ width: `${(count / max) * 100}%` }} />
-                </div>
-                <span className="text-right font-medium">{count}</span>
-              </li>
-            ))}
-          </ul>
-        )}
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link to="/industries" className="inline-flex items-center gap-2 rounded-full bg-primary-foreground px-6 py-3 font-medium text-primary hover:opacity-90">
+              Explore industries <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link to="/pipeline" className="inline-flex items-center gap-2 rounded-full border border-sidebar-foreground/40 px-6 py-3 font-medium hover:bg-sidebar-foreground/10">
+              Open the pipeline
+            </Link>
+          </div>
+          <dl className="mt-14 grid max-w-lg grid-cols-3 gap-6">
+            <Fact n={INDUSTRY_CATALOG.length} l="Industries" />
+            <Fact n={s.prospects.length} l="Prospects" />
+            <Fact n={won} l="Won" />
+          </dl>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <h2 className="text-3xl font-semibold">How it works</h2>
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map(({ icon: Icon, title, text, to }, i) => (
+            <Link key={to} to={to} className="group rounded-2xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground"><Icon className="h-5 w-5" /></span>
+                <span className="text-xs text-muted-foreground">Step {i + 1}</span>
+              </div>
+              <h3 className="font-semibold">{title}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{text}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-20 md:grid-cols-3">
+        <Tile img={b2b} title="Business clients" text="Offices, agencies, IT and trade buyers." to="/audiences" />
+        <Tile img={b2c} title="Consumer audiences" text="Patients, guests and homeowners — consent-based only." to="/audiences" />
+        <Tile img={industries} title="Every local trade" text="From nail salons to HVAC to AI services." to="/industries" />
       </section>
     </div>
   );
 }
 
-function Stat({ label, value }: { label: string; value: number }) {
+function Fact({ n, l }: { n: number; l: string }) {
   return (
-    <div className="rounded-lg border border-border bg-card p-4">
-      <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="mt-1 text-2xl font-semibold">{value}</div>
+    <div>
+      <dt className="text-xs uppercase tracking-wider opacity-70">{l}</dt>
+      <dd className="text-3xl font-semibold">{n}</dd>
     </div>
+  );
+}
+
+function Tile({ img, title, text, to }: { img: string; title: string; text: string; to: "/audiences" | "/industries" }) {
+  return (
+    <Link to={to} className="group relative block h-80 overflow-hidden rounded-2xl">
+      <img src={img} alt={title} loading="lazy" width={1200} height={800} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+      <div className="absolute inset-0 bg-gradient-to-t from-sidebar via-sidebar/30 to-transparent" />
+      <div className="absolute bottom-0 p-6 text-sidebar-foreground">
+        <h3 className="text-xl font-semibold">{title}</h3>
+        <p className="text-sm opacity-85">{text}</p>
+      </div>
+    </Link>
   );
 }
