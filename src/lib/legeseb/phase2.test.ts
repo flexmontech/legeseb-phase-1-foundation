@@ -1,10 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { createSeedState } from "./model";
+import { createSeedState, type Prospect } from "./model";
 import { defaultCriteria, generateDraft, normalizeState, parseCSV, prepareImport, provenance, qualify, type Campaign } from "./phase2";
 
 const state = createSeedState();
-const prospect = state.prospects[0];
-if (!prospect) throw new Error("Missing fixture");
+const prospect: Prospect = { id: "fixture", workspaceId: "w", name: "Demo Guest 1", industryId: "spa", type: "B2C", email: "demo1@example.com", source: "Referral", service: "Massage", stageId: "discovered", recordSource: "Demo", notes: "", demo: true, createdAt: "", updatedAt: "" };
 const campaign: Campaign = { id: "campaign", name: "Spa outreach", offering: "Massage", industryId: "spa", type: "B2C", location: "", objective: "booking a consultation", cta: "Would you like to arrange a consultation?", webReadiness: false, criteria: defaultCriteria("spa", "B2C") };
 describe("Phase 2", () => {
   it("preserves Phase 1 records and stages while adding empty collections", () => {
