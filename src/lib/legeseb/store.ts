@@ -2,7 +2,7 @@ import { useSyncExternalStore } from "react";
 import { createSeedState, type AppState } from "./model";
 import { normalizeState } from "./phase2";
 
-const KEY = "legeseb:v1";
+const KEY = "legeseb:v2";
 let state: AppState | null = null;
 const listeners = new Set<() => void>();
 

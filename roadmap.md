@@ -5,3 +5,4 @@
 - [x] Phase 2 Batch 2: configurable transparent qualification and optional verifiable web readiness
 - [x] Editable email, SMS and call drafts with quick copy; no sending
 - [x] Verify Phase 1 regressions and desktop/mobile end-to-end workflows (21 tests and browser checks)
+- [x] Load 26 audited Chicago leads; calmer, refined colors
