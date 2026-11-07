@@ -43,8 +43,8 @@ function Audiences() {
         <section key={t} className="grid gap-6 md:grid-cols-[22rem_1fr]">
           <div className="relative h-56 overflow-hidden rounded-2xl md:h-auto">
             <img src={t === "B2B" ? b2b : b2c} alt="" loading="lazy" width={1200} height={800} className="h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-sidebar/90 to-transparent" />
-            <div className="absolute bottom-0 p-5 text-sidebar-foreground">
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 to-transparent" />
+            <div className="absolute bottom-0 p-5 text-primary-foreground">
               <h2 className="text-2xl font-semibold">{t === "B2B" ? "Business audiences" : "Consumer audiences"}</h2>
               <p className="text-sm opacity-85">{t === "B2B" ? "Companies buying services" : "Individuals — authorized, consent-based sources only"}</p>
             </div>
