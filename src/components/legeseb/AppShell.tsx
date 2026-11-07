@@ -62,8 +62,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               key={to}
               to={to}
               activeOptions={{ exact: to === "/" }}
-              className="flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-sm opacity-80 hover:bg-secondary hover:opacity-100"
-              activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground font-medium !opacity-100" }}
+              className="flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-destructive hover:bg-secondary"
+              activeProps={{ className: "bg-destructive/10 !text-destructive font-semibold" }}
             >
               {to === "/internal" && <Lock className="h-3.5 w-3.5" />} {label}
             </Link>
