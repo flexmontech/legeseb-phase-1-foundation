@@ -48,7 +48,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-30 border-b border-sidebar-border bg-sidebar text-sidebar-foreground shadow-sm">
         <div className="flex items-center justify-between gap-4 px-4 py-3 md:px-8">
-          <Link to="/" className="text-lg font-bold tracking-[0.3em] text-primary">LEGESEB</Link>
+          <Link to="/" className="text-lg font-bold tracking-[0.3em] text-sidebar-foreground">LEGESEB</Link>
           {mounted && !fullBleed && (
             <div className="hidden items-center gap-3 text-xs md:flex">
               <span className="opacity-70">{s.workspace.name}</span>
@@ -62,8 +62,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               key={to}
               to={to}
               activeOptions={{ exact: to === "/" }}
-              className="flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-destructive hover:bg-secondary"
-              activeProps={{ className: "bg-destructive/10 !text-destructive font-semibold" }}
+              className="flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-foreground/15"
+              activeProps={{ className: "bg-card !text-destructive font-semibold shadow-sm" }}
             >
               {to === "/internal" && <Lock className="h-3.5 w-3.5" />} {label}
             </Link>
