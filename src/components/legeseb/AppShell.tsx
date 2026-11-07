@@ -24,7 +24,7 @@ export function IndustrySelect() {
       <span className="hidden sm:inline text-muted-foreground">Target industry</span>
       <select
         aria-label="Target industry"
-        className="h-9 max-w-[14rem] rounded-md border border-input bg-card px-2 text-sm"
+        className="h-9 max-w-[14rem] rounded-md border border-input bg-card px-2 text-sm text-foreground"
         value={s.activeIndustryId}
         onChange={(e) => update((st) => setActiveIndustry(st, e.target.value))}
       >
