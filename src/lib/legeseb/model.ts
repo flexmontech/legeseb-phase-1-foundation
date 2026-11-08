@@ -56,6 +56,7 @@ export interface AppState {
   prospects: Prospect[];
   campaigns?: import("./phase2").Campaign[];
   drafts?: import("./phase2").OutreachDraft[];
+  sites?: import("./sampleSite").SampleSite[];
 }
 
 export const ALL = "all";
