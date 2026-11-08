@@ -27,7 +27,7 @@ export function defaultCriteria(industryId: string, type: TargetType, location =
 }
 export function provenance(p: Prospect) { return p.demo ? "Demo" : p.recordSource ?? "Manual"; }
 export function normalizeState(s: AppState): AppState {
-  return { ...s, campaigns: s.campaigns ?? [], drafts: s.drafts ?? [], prospects: s.prospects.map(p => ({ ...p, recordSource: provenance(p) })) };
+  return { ...s, campaigns: s.campaigns ?? [], drafts: s.drafts ?? [], sites: s.sites ?? [], prospects: s.prospects.map(p => ({ ...p, recordSource: provenance(p) })) };
 }
 export function validWebsite(raw: string) {
   try { const url = new URL(raw); return ["http:", "https:"].includes(url.protocol) && url.hostname.includes("."); } catch { return false; }
