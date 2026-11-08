@@ -1,159 +1,95 @@
-# LEGESEB Phase 1 Foundation
+# LEGESEB
 
-PHASE 1 OF 2 — BUILD THE LEGESEB FOUNDATION ONLY
+LEGESEB is a configurable lead-generation and lead-management application for small businesses. It combines a prospect CRM foundation with industry configuration, campaign-based discovery workflows, transparent qualification, CSV import, and editable outreach drafts.
 
-CREDIT AND SCOPE CONTROL
-Build only the foundation described below.
-Do not implement Phase 2 features.
-Avoid unnecessary redesigns, elaborate animations, large demo datasets, or separate page implementations for each industry.
-Use shared components and configuration-driven content.
-If something requires a paid integration or materially expands the scope, disclose it and defer it.
+> **Current scope:** The repository has moved beyond the original Phase 1 foundation. The implementation includes Phase 2 discovery and preparation features. See [roadmap.md](./roadmap.md) for the recorded delivery checklist.
 
-1. PROJECT BOUNDARY — CHECK THIS FIRST
-Create LEGESEB as a NEW, INDEPENDENT project.
+## What the application does
 
-Use @Kinetiq ONLY as a reference for workflows and interface patterns.
-Do NOT modify, rename, overwrite, rebrand, or change Kinetiq.
-Do NOT use Kinetiq’s production database, authentication, credentials, or customer data.
+- **Dashboard:** summarizes prospect and pipeline records.
+- **Prospects:** create, edit, search, filter, and review prospect records.
+- **Pipeline:** move prospects through configurable stages.
+- **Industry configuration:** use shared presets or add custom industries without creating separate industry-specific applications.
+- **Discovery and campaigns:** configure a target audience and offering, then organize prospect discovery and qualification.
+- **CSV import:** parse files, map source columns to prospect fields, review validation errors, and detect duplicate email addresses. B2C imports require an authorized source declaration and source details.
+- **Qualification:** apply configurable criteria and show both the score and the amount of information assessed. Unknown fields are not silently treated as failures.
+- **Web readiness:** optional checks of supplied website URL format and HTTPS status. This is not a live website audit or external crawling service.
+- **Outreach drafts:** prepare editable email, SMS, and call drafts for copying. The app does not send messages.
 
-If this chat cannot create or access a separate project, STOP and tell me what I need to do first. Do not make changes to Kinetiq.
+The repository's roadmap records 26 audited Chicago leads loaded into the pilot. Treat prospect data as operational data, not as proof that a prospect has been contacted or converted.
 
-2. PRODUCT GOAL
-Build a reusable lead-generation and lead-management foundation that different businesses can configure for different industries.
+## Data and workspace behavior
 
-Keep these concepts separate:
-- Client workspace: the business using LEGESEB.
-- Target industry: the market that business wants to reach.
-- Prospect: a potential customer.
+The client-side state layer in `src/lib/legeseb/store.ts` supports two modes:
 
-For Phase 1, provide ONE demo client workspace. Structure records so they can support additional workspaces later, but do not build multi-user onboarding, workspace switching, or production multi-tenant access controls yet.
+- **Demo mode:** the Chicago pilot is stored in the current browser's `localStorage`. Data is local to that browser and is not automatically shared with another device or user.
+- **Cloud workspace mode:** the store can activate a signed-in workspace and persist changes through a supplied backend save function. Workspace isolation and actual deployment configuration depend on the connected backend/authentication setup.
 
-Do not describe this phase as production-ready for multiple clients.
+The Internal PIN is a browser privacy screen, **not a security boundary**. Browser-only data and client-side controls must not be treated as production multi-user access control. Review the authentication, backend policies, and deployment configuration before using real customer or sensitive personal data.
 
-3. MINIMUM SCREENS
-Build only:
-- Dashboard: prospect counts and pipeline summary derived from saved records.
-- Prospects: list, search, filtering, manual creation, editing, and prospect details.
-- Pipeline: five stages with working stage changes.
-- Settings: client profile and industry configuration.
+## Technical overview
 
-Use persistent storage appropriate to the standalone project. State what storage is used and any limitations.
+- React 19 and TypeScript
+- TanStack Start / TanStack Router
+- Vite
+- Tailwind CSS and Radix UI components
+- Supabase client integration is present in the dependency set and `src/integrations`
+- Papa Parse for CSV parsing
+- Vitest and Testing Library for automated tests
 
-All core actions must work. Do not add nonfunctional buttons.
+### Key source areas
 
-4. INDUSTRY CONFIGURATION
-Use one shared application driven by industry settings—not duplicated pages.
+| Path | Purpose |
+| --- | --- |
+| `src/routes/` | Application routes and screens |
+| `src/components/` | Shared interface components |
+| `src/lib/legeseb/model.ts` | Core data types, industry presets, pipeline stages, demo seed state |
+| `src/lib/legeseb/store.ts` | Application state, browser persistence, workspace activation |
+| `src/lib/legeseb/phase2.ts` | CSV parsing/import, qualification, provenance, outreach draft generation |
+| `src/lib/legeseb/industryCatalog.ts` | Industry catalog |
+| `src/lib/legeseb/chicagoLeads.ts` | Chicago pilot prospect seed data |
+| `src/lib/legeseb/workspaces.ts` | Workspace-related logic |
+| `src/lib/legeseb/*.test.ts` and `src/test/` | Automated tests |
+| `supabase/` | Supabase project configuration |
+| `drizzle/` and `drizzle.config.ts` | Drizzle database tooling/configuration |
 
-Include lightweight presets for:
-- Spa and wellness.
-- Dental.
-- HVAC.
-- Office services.
-- Gardening and landscaping.
-- Real estate.
-- IT and AI services.
-- Nail salons.
-- General / Other.
+## Local development
 
-Each preset needs only:
-- Industry name.
-- Example services.
-- Prospect terminology.
-- Default B2B or B2C target type, editable by the user.
-
-Include a simple “Add custom industry” form using the same configuration structure.
-
-Provide a target-industry selector. Changing it should update relevant labels, service options, and prospect filtering without deleting or rewriting existing records.
-
-5. PROSPECT DATA
-Support:
-- Prospect name.
-- Business name, optional for individual consumers.
-- Industry.
-- B2B or B2C type.
-- Email and phone, optional.
-- Website, optional.
-- Lead source.
-- Pipeline stage.
-- Notes.
-
-Do not require a website or business name for every prospect.
-
-6. PIPELINE
-Use Kinetiq’s five stages only if you can inspect and verify them.
-Otherwise use these defaults and disclose that they are defaults:
-New → Qualified → Contacted → Proposal / Offer → Won
-
-Allow stage names to be edited.
-Save stage changes persistently.
-
-7. MINIMAL DEMO DATA
-Create only TWO clearly labeled fictional prospects per starter industry.
-Distribute them across pipeline stages to demonstrate functionality.
-
-Do not generate full websites, reviews, extensive activity histories, or large campaign datasets.
-Do not invent real contact details or imply fictional businesses are real.
-
-Provide useful empty states when filters return no records.
-
-8. BRANDING
-Use LEGESEB for application navigation, titles, and footer.
-Do not reuse Kinetiq branding.
-
-Use https://www.flexmon.tech as the color reference if its visual styling is accessible.
-If you cannot inspect its colors, ask me for a screenshot or brand colors before styling. Do not invent a matching palette.
-
-Use a simple responsive interface and centralized design tokens.
-Prioritize usable forms, clear navigation, and readable tables over decorative effects.
-
-9. EXPLICITLY OUT OF SCOPE
-Do NOT build in Phase 1:
-- Live prospect discovery or scanning.
-- External data-provider integrations.
-- AI-generated outreach.
-- Email or SMS sending.
-- Calling integrations.
-- Website audits or Web Readiness scoring.
-- Generated sample websites.
-- Visitor tracking.
-- Campaign automation.
-- Multi-user onboarding or production multi-tenant access controls.
-- Billing.
-
-Do not build placeholder pages for these features.
-
-10. COMPLETION CHECK
-Verify:
-- Kinetiq remains unchanged.
-- LEGESEB is an independent project.
-- Prospect creation and editing work.
-- Records and pipeline changes persist.
-- Industry switching works.
-- A custom industry can be added without code changes.
-- B2B and B2C prospects are supported.
-- Dashboard totals match saved records.
-- The interface works on desktop and mobile.
-
-At completion, summarize what works, storage limitations, and anything deferred.
-STOP after Phase 1. Do not automatically begin Phase 2.
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/f00703f3-f5c0-41ad-b209-24e337fe009a).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+The project uses Bun lockfiles and Bun-compatible scripts. Install Bun first, then:
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+git clone https://github.com/flexmontech/legeseb-phase-1-foundation.git
+cd legeseb-phase-1-foundation
+bun install
+bun run dev
 ```
+
+Useful commands from `package.json`:
+
+```sh
+bun run build
+bun run lint
+bun run test
+bun run test:watch
+bun run format
+```
+
+Do not commit local environment files or secrets. The repository contains a root `.env` path; verify that it is ignored and that no credentials or private values are tracked before sharing or deploying the repository.
+
+## Project documentation
+
+- [roadmap.md](./roadmap.md) — implementation checklist and recorded milestones.
+- [AGENTS.md](./AGENTS.md) — project-specific development guidance and architecture notes, including the Lovable sync warning.
+- This README — product overview, current capabilities, data limitations, and developer setup.
+
+## Important boundaries
+
+- LEGESEB is an independent project. The reference project named in the original build brief is for workflow inspiration only; do not access or reuse its production data, credentials, or database.
+- Do not claim that the application is production-ready for multi-tenant use without verifying authentication, authorization, backend row-level policies, and workspace isolation.
+- Website readiness checks are limited to supplied URL format/HTTPS signals; they are not a security scan, SEO audit, or live website assessment.
+- Outreach is draft-only. There is no email, SMS, or calling provider sending messages.
+- Do not add paid data-provider integrations or automated prospect scraping without explicit scope and cost approval.
+
+## Current status
+
+The codebase includes the original prospect-management foundation and documented Phase 2 additions. The roadmap currently marks the foundation, discovery/import/qualification batches, draft generation, regression checks, and Chicago pilot data load as complete. That checklist is a project record, not an independent production-readiness or security certification.
