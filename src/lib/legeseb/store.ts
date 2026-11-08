@@ -46,7 +46,7 @@ export function update(fn: (s: AppState) => AppState) {
 }
 
 /** Switch the app to a backend workspace. */
-export function useCloudWorkspace(workspaceId: string, name: string, data: AppState, save: (s: AppState) => Promise<void>) {
+export function activateCloudWorkspace(workspaceId: string, name: string, data: AppState, save: (s: AppState) => Promise<void>) {
   mode = { kind: "cloud", workspaceId, name };
   saver = save;
   state = normalizeState(data);
@@ -54,7 +54,7 @@ export function useCloudWorkspace(workspaceId: string, name: string, data: AppSt
 }
 
 /** Return to the browser-only Chicago demo. */
-export function useDemoWorkspace() {
+export function activateDemoWorkspace() {
   if (saveTimer) clearTimeout(saveTimer);
   mode = { kind: "demo" };
   saver = null;
