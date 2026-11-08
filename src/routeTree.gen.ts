@@ -10,13 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AudiencesRouteImport } from './routes/audiences'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DiscoveryRouteImport } from './routes/discovery'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as InternalRouteImport } from './routes/internal'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as AuthenticatedWorkspacesRouteImport } from './routes/_authenticated/workspaces'
 import { Route as ProspectsIndexRouteImport } from './routes/prospects.index'
 import { Route as ProspectsIdRouteImport } from './routes/prospects.$id'
 import { Route as SampleIdRouteImport } from './routes/sample.$id'
@@ -26,9 +29,18 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AudiencesRoute = AudiencesRouteImport.update({
   id: '/audiences',
   path: '/audiences',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -61,6 +73,11 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedWorkspacesRoute = AuthenticatedWorkspacesRouteImport.update({
+  id: '/workspaces',
+  path: '/workspaces',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ProspectsIndexRoute = ProspectsIndexRouteImport.update({
   id: '/prospects/',
   path: '/prospects/',
@@ -80,12 +97,14 @@ const SampleIdRoute = SampleIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/audiences': typeof AudiencesRoute
+  '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/discovery': typeof DiscoveryRoute
   '/industries': typeof IndustriesRoute
   '/internal': typeof InternalRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
+  '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/prospects/$id': typeof ProspectsIdRoute
   '/sample/$id': typeof SampleIdRoute
   '/prospects/': typeof ProspectsIndexRoute
@@ -93,12 +112,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/audiences': typeof AudiencesRoute
+  '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/discovery': typeof DiscoveryRoute
   '/industries': typeof IndustriesRoute
   '/internal': typeof InternalRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
+  '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/prospects/$id': typeof ProspectsIdRoute
   '/sample/$id': typeof SampleIdRoute
   '/prospects': typeof ProspectsIndexRoute
@@ -106,13 +127,16 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/audiences': typeof AudiencesRoute
+  '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/discovery': typeof DiscoveryRoute
   '/industries': typeof IndustriesRoute
   '/internal': typeof InternalRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
+  '/_authenticated/workspaces': typeof AuthenticatedWorkspacesRoute
   '/prospects/$id': typeof ProspectsIdRoute
   '/sample/$id': typeof SampleIdRoute
   '/prospects/': typeof ProspectsIndexRoute
@@ -122,12 +146,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/audiences'
+    | '/auth'
     | '/dashboard'
     | '/discovery'
     | '/industries'
     | '/internal'
     | '/pipeline'
     | '/settings'
+    | '/workspaces'
     | '/prospects/$id'
     | '/sample/$id'
     | '/prospects/'
@@ -135,25 +161,30 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/audiences'
+    | '/auth'
     | '/dashboard'
     | '/discovery'
     | '/industries'
     | '/internal'
     | '/pipeline'
     | '/settings'
+    | '/workspaces'
     | '/prospects/$id'
     | '/sample/$id'
     | '/prospects'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/audiences'
+    | '/auth'
     | '/dashboard'
     | '/discovery'
     | '/industries'
     | '/internal'
     | '/pipeline'
     | '/settings'
+    | '/_authenticated/workspaces'
     | '/prospects/$id'
     | '/sample/$id'
     | '/prospects/'
@@ -161,7 +192,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AudiencesRoute: typeof AudiencesRoute
+  AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRoute
   DiscoveryRoute: typeof DiscoveryRoute
   IndustriesRoute: typeof IndustriesRoute
@@ -182,11 +215,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/audiences': {
       id: '/audiences'
       path: '/audiences'
       fullPath: '/audiences'
       preLoaderRoute: typeof AudiencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -231,6 +278,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/workspaces': {
+      id: '/_authenticated/workspaces'
+      path: '/workspaces'
+      fullPath: '/workspaces'
+      preLoaderRoute: typeof AuthenticatedWorkspacesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/prospects/': {
       id: '/prospects/'
       path: '/prospects'
@@ -255,9 +309,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedWorkspacesRoute: typeof AuthenticatedWorkspacesRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedWorkspacesRoute: AuthenticatedWorkspacesRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AudiencesRoute: AudiencesRoute,
+  AuthRoute: AuthRoute,
   DashboardRoute: DashboardRoute,
   DiscoveryRoute: DiscoveryRoute,
   IndustriesRoute: IndustriesRoute,
