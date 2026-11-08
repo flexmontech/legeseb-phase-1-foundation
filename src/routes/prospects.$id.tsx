@@ -7,6 +7,7 @@ import { update, useAppState } from "@/lib/legeseb/store";
 import { Qualification } from "@/components/legeseb/Qualification";
 import { OutreachDrafts } from "@/components/legeseb/OutreachDrafts";
 import { provenance } from "@/lib/legeseb/phase2";
+import { SampleSiteEditor } from "@/components/legeseb/SampleSiteEditor";
 
 export const Route = createFileRoute("/prospects/$id")({
   head: () => ({
@@ -111,6 +112,7 @@ function Detail() {
         <label className="grid gap-1.5 text-sm">Campaign<select aria-label="Prospect campaign" className="h-9 rounded-md border border-input bg-card px-2 text-sm" value={p.campaignId ?? ""} onChange={e => update(st => ({ ...st, prospects: st.prospects.map(x => x.id === p.id ? { ...x, campaignId: e.target.value, updatedAt: new Date().toISOString() } : x) }))}>
           <option value="">Not assigned</option>{s.campaigns?.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select></label>
+        <SampleSiteEditor prospect={p} />
         {campaign ? <><Qualification prospect={p} campaign={campaign} /><OutreachDrafts prospect={p} campaign={campaign} /></> : <Link to="/discovery" className="text-sm text-primary underline">Find prospects & campaigns</Link>}
       </>}
     </div>
