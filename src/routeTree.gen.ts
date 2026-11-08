@@ -19,6 +19,7 @@ import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ProspectsIndexRouteImport } from './routes/prospects.index'
 import { Route as ProspectsIdRouteImport } from './routes/prospects.$id'
+import { Route as SampleIdRouteImport } from './routes/sample.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +71,11 @@ const ProspectsIdRoute = ProspectsIdRouteImport.update({
   path: '/prospects/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SampleIdRoute = SampleIdRouteImport.update({
+  id: '/sample/$id',
+  path: '/sample/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/prospects/$id': typeof ProspectsIdRoute
+  '/sample/$id': typeof SampleIdRoute
   '/prospects/': typeof ProspectsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/prospects/$id': typeof ProspectsIdRoute
+  '/sample/$id': typeof SampleIdRoute
   '/prospects': typeof ProspectsIndexRoute
 }
 export interface FileRoutesById {
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
   '/prospects/$id': typeof ProspectsIdRoute
+  '/sample/$id': typeof SampleIdRoute
   '/prospects/': typeof ProspectsIndexRoute
 }
 export interface FileRouteTypes {
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/pipeline'
     | '/settings'
     | '/prospects/$id'
+    | '/sample/$id'
     | '/prospects/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/pipeline'
     | '/settings'
     | '/prospects/$id'
+    | '/sample/$id'
     | '/prospects'
   id:
     | '__root__'
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/pipeline'
     | '/settings'
     | '/prospects/$id'
+    | '/sample/$id'
     | '/prospects/'
   fileRoutesById: FileRoutesById
 }
@@ -157,6 +169,7 @@ export interface RootRouteChildren {
   PipelineRoute: typeof PipelineRoute
   SettingsRoute: typeof SettingsRoute
   ProspectsIdRoute: typeof ProspectsIdRoute
+  SampleIdRoute: typeof SampleIdRoute
   ProspectsIndexRoute: typeof ProspectsIndexRoute
 }
 
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProspectsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sample/$id': {
+      id: '/sample/$id'
+      path: '/sample/$id'
+      fullPath: '/sample/$id'
+      preLoaderRoute: typeof SampleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -245,6 +265,7 @@ const rootRouteChildren: RootRouteChildren = {
   PipelineRoute: PipelineRoute,
   SettingsRoute: SettingsRoute,
   ProspectsIdRoute: ProspectsIdRoute,
+  SampleIdRoute: SampleIdRoute,
   ProspectsIndexRoute: ProspectsIndexRoute,
 }
 export const routeTree = rootRouteImport
