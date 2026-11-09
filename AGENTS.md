@@ -10,7 +10,8 @@
 <!-- LOVABLE:END -->
 
 ## Architecture
-- LEGESEB Phase 1 stores all data in browser localStorage via `src/lib/legeseb/store.ts`; pure logic lives in `model.ts` so it can move to a database later.
+- `store.ts` holds one AppState in two modes: the Chicago demo in browser localStorage, or a signed-in live workspace stored as one JSON state row per workspace in the backend (workspaces.ts); isolation is enforced by membership RLS, and demo data never enters live workspaces.
+- Sample websites are one reusable template (sampleSite.ts + /sample/$id), created only on request per prospect, always labeled as demonstration content and blocked from fabricated claims.
 - Industries are configuration records (presets + custom), never per-industry pages.
 - Never modify or use the data/database of the reference project "Web Sales Connect"; read-only reference only.
 - Phase 2 extends the existing browser store with optional campaign and draft collections, normalizing old records on load to preserve Phase 1 data; pure CSV, qualification, and template logic lives in phase2.ts for testability and future migration.

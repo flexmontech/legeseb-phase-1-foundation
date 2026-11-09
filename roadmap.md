@@ -6,3 +6,7 @@
 - [x] Editable email, SMS and call drafts with quick copy; no sending
 - [x] Verify Phase 1 regressions and desktop/mobile end-to-end workflows (21 tests and browser checks)
 - [x] Load 26 audited Chicago leads; calmer, refined colors
+- [x] Phase 2 item 3 (outreach drafts) — already built; duplicate, no changes
+- [x] Phase 2 item 4: optional sample websites per selected prospect
+- [x] Phase 2 item 5: sign-in, live client workspaces with backend isolation (tested)
+- [x] Phase 2 item 6: acceptance and handoff summary
