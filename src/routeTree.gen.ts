@@ -19,6 +19,7 @@ import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as InternalRouteImport } from './routes/internal'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as AuthenticatedWorkspacesRouteImport } from './routes/_authenticated/workspaces'
 import { Route as ProspectsIndexRouteImport } from './routes/prospects.index'
 import { Route as ProspectsIdRouteImport } from './routes/prospects.$id'
@@ -73,6 +74,11 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShowcaseRoute = ShowcaseRouteImport.update({
+  id: '/showcase',
+  path: '/showcase',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedWorkspacesRoute = AuthenticatedWorkspacesRouteImport.update({
   id: '/workspaces',
   path: '/workspaces',
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/internal': typeof InternalRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
+  '/showcase': typeof ShowcaseRoute
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/prospects/$id': typeof ProspectsIdRoute
   '/sample/$id': typeof SampleIdRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/internal': typeof InternalRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
+  '/showcase': typeof ShowcaseRoute
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/prospects/$id': typeof ProspectsIdRoute
   '/sample/$id': typeof SampleIdRoute
@@ -136,6 +144,7 @@ export interface FileRoutesById {
   '/internal': typeof InternalRoute
   '/pipeline': typeof PipelineRoute
   '/settings': typeof SettingsRoute
+  '/showcase': typeof ShowcaseRoute
   '/_authenticated/workspaces': typeof AuthenticatedWorkspacesRoute
   '/prospects/$id': typeof ProspectsIdRoute
   '/sample/$id': typeof SampleIdRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/internal'
     | '/pipeline'
     | '/settings'
+    | '/showcase'
     | '/workspaces'
     | '/prospects/$id'
     | '/sample/$id'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/internal'
     | '/pipeline'
     | '/settings'
+    | '/showcase'
     | '/workspaces'
     | '/prospects/$id'
     | '/sample/$id'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/internal'
     | '/pipeline'
     | '/settings'
+    | '/showcase'
     | '/_authenticated/workspaces'
     | '/prospects/$id'
     | '/sample/$id'
@@ -201,6 +213,7 @@ export interface RootRouteChildren {
   InternalRoute: typeof InternalRoute
   PipelineRoute: typeof PipelineRoute
   SettingsRoute: typeof SettingsRoute
+  ShowcaseRoute: typeof ShowcaseRoute
   ProspectsIdRoute: typeof ProspectsIdRoute
   SampleIdRoute: typeof SampleIdRoute
   ProspectsIndexRoute: typeof ProspectsIndexRoute
@@ -278,6 +291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/showcase': {
+      id: '/showcase'
+      path: '/showcase'
+      fullPath: '/showcase'
+      preLoaderRoute: typeof ShowcaseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/workspaces': {
       id: '/_authenticated/workspaces'
       path: '/workspaces'
@@ -331,6 +351,7 @@ const rootRouteChildren: RootRouteChildren = {
   InternalRoute: InternalRoute,
   PipelineRoute: PipelineRoute,
   SettingsRoute: SettingsRoute,
+  ShowcaseRoute: ShowcaseRoute,
   ProspectsIdRoute: ProspectsIdRoute,
   SampleIdRoute: SampleIdRoute,
   ProspectsIndexRoute: ProspectsIndexRoute,
