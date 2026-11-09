@@ -63,6 +63,7 @@ export function activateDemoWorkspace() {
 }
 
 export function resetDemo() {
+  if (mode.kind !== "demo") return; // never copy demo records into a live workspace
   update(() => createSeedState());
 }
 
