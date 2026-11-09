@@ -1,6 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
-import { useAppState, update } from "@/lib/legeseb/store";
+import { useAppState, update, useMode } from "@/lib/legeseb/store";
+import { supabase } from "@/integrations/supabase/client";
+import { closeWorkspace, lastWorkspaceId, openWorkspace } from "@/lib/legeseb/workspaces";
 import { ALL, setActiveIndustry } from "@/lib/legeseb/model";
 import { Lock } from "lucide-react";
 
@@ -15,6 +17,7 @@ const NAV = [
   { to: "/dashboard", label: "Dashboard" },
   { to: "/settings", label: "Settings" },
   { to: "/internal", label: "Internal" },
+  { to: "/workspaces", label: "Workspaces" },
 ] as const;
 
 export function IndustrySelect() {
@@ -39,7 +42,14 @@ export function IndustrySelect() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    const last = lastWorkspaceId();
+    if (last) supabase.auth.getUser().then(({ data }) => { if (data.user) openWorkspace(last).catch(() => closeWorkspace()); });
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => { if (event === "SIGNED_OUT") closeWorkspace(); });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+  const mode = useMode();
   const s = useAppState();
   const path = useRouterState({ select: (r) => r.location.pathname });
   const fullBleed = path === "/";
@@ -51,7 +61,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link to="/" className="text-lg font-bold tracking-[0.3em] text-sidebar-foreground">LEGESEB</Link>
           {mounted && !fullBleed && (
             <div className="hidden items-center gap-3 text-xs md:flex">
-              <span className="opacity-70">{s.workspace.name}</span>
+              <span className="opacity-80">{s.workspace.name} · {mode.kind === "cloud" ? "Live workspace" : "Demo (this browser)"}</span>
               <IndustrySelect />
             </div>
           )}
@@ -79,7 +89,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         {mounted ? children : null}
       </main>
       <footer className="border-t border-border px-4 py-4 text-xs text-muted-foreground md:px-8">
-        LEGESEB · Lead generation for every industry · Data is saved in this browser only
+        LEGESEB · Lead generation for every industry · {mode.kind === "cloud" ? "Live workspace saved online, visible only to its members" : "Demo data is saved in this browser only"}
       </footer>
     </div>
   );
