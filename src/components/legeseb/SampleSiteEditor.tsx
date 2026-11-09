@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { update, useAppState } from "@/lib/legeseb/store";
 import { uid, type Prospect } from "@/lib/legeseb/model";
-import { fabricatedClaims, generateSampleSite, SAMPLE_LABEL, type SampleSite } from "@/lib/legeseb/sampleSite";
+import { fabricatedClaims, generateSampleSite, SAMPLE_LABEL, THEMES, themeFor, type SampleSite, type SiteTheme } from "@/lib/legeseb/sampleSite";
 
 export function SampleSiteEditor({ prospect }: { prospect: Prospect }) {
   const s = useAppState();
@@ -35,6 +35,11 @@ function Editor({ site }: { site: SampleSite }) {
       <label className="grid gap-1.5 text-sm">Introduction<Textarea rows={4} value={d.intro} onChange={(e) => setD({ ...d, intro: e.target.value })} /></label>
       <label className="grid gap-1.5 text-sm">Services (one per line)<Textarea rows={4} value={d.services} onChange={(e) => setD({ ...d, services: e.target.value })} /></label>
       <label className="grid gap-1.5 text-sm">Button text<Input value={d.cta} onChange={(e) => setD({ ...d, cta: e.target.value })} /></label>
+      <label className="grid gap-1.5 text-sm">Style
+        <select className="h-9 rounded-md border border-input bg-card px-2 text-sm" value={site.theme ?? themeFor()} onChange={(e) => update((st) => ({ ...st, sites: (st.sites ?? []).map((x) => x.id === site.id ? { ...x, theme: e.target.value as SiteTheme } : x) }))}>
+          {THEMES.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
+        </select>
+      </label>
       {flagged.length > 0 && <p role="alert" className="text-sm text-destructive">Remove claims the business has not provided: {flagged.join(", ")}.</p>}
       <div className="flex flex-wrap gap-2">
         <Button disabled={flagged.length > 0 || !d.headline.trim()} onClick={() => {
