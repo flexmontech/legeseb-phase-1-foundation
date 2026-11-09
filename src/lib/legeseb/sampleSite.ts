@@ -8,7 +8,23 @@ export interface SampleSite {
   intro: string;
   services: string[];
   cta: string;
+  theme?: SiteTheme;
   updatedAt: string;
+}
+
+export type SiteTheme = "corporate" | "wellness" | "contractor";
+export const THEMES: { id: SiteTheme; label: string }[] = [
+  { id: "corporate", label: "Executive (professional services)" },
+  { id: "wellness", label: "Calm (clinics, spas, personal care)" },
+  { id: "contractor", label: "Bold (trades and contractors)" },
+];
+
+/** Picks a fitting look from the industry name; always editable afterwards. */
+export function themeFor(industryName = ""): SiteTheme {
+  const n = industryName.toLowerCase();
+  if (/spa|wellness|dental|dentist|clinic|nail|salon|health|beauty|massage|medical/.test(n)) return "wellness";
+  if (/hvac|roof|plumb|garden|landscap|construct|electric|contractor|repair|clean/.test(n)) return "contractor";
+  return "corporate";
 }
 
 export const SAMPLE_LABEL = "Demonstration page · Sample content for discussion only · Not the business's official website";
@@ -26,6 +42,7 @@ export function generateSampleSite(p: Prospect, industry: Industry | undefined, 
     intro: `A sample ${kind.toLowerCase()} homepage layout prepared by ${ws.name || "LEGESEB"} to show how ${business} could present its services online. Replace this text with details confirmed by the business.`,
     services: (industry?.services ?? ["Service one", "Service two"]).slice(0, 4),
     cta: p.phone || p.email ? "Contact us" : "Get in touch",
+    theme: themeFor(industry?.name),
     updatedAt: now,
   };
 }
