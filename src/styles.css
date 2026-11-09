@@ -52,6 +52,11 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
   --color-sidebar: var(--sidebar);
+  --color-theme-wellness: var(--theme-wellness);
+  --color-theme-wellness-foreground: var(--theme-wellness-foreground);
+  --color-theme-contractor: var(--theme-contractor);
+  --color-theme-contractor-foreground: var(--theme-contractor-foreground);
+  --color-theme-contractor-accent: var(--theme-contractor-accent);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
@@ -89,6 +94,11 @@
   --chart-4: oklch(0.45 0.01 260);
   --chart-5: oklch(0.18 0.02 240);
   --sidebar: #457b9d;
+  --theme-wellness: oklch(0.55 0.06 165);
+  --theme-wellness-foreground: oklch(0.99 0 0);
+  --theme-contractor: oklch(0.27 0.01 250);
+  --theme-contractor-foreground: oklch(0.98 0 0);
+  --theme-contractor-accent: oklch(0.78 0.14 75);
   --sidebar-foreground: oklch(0.99 0 0);
   --sidebar-primary: oklch(0.55 0.07 240);
   --sidebar-primary-foreground: oklch(0.98 0 0);
