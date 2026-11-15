@@ -1,5 +1,9 @@
 # LEGESEB
 
+**Portfolio division:** Business Applications & Solutions
+
+@Flexmon Intellectual Property © FLEXMON LLC. All rights reserved.
+Proprietary work. Do not copy without prior written permission or signed contract.
 LEGESEB is a configurable lead-generation and lead-management application for small businesses. It combines a prospect CRM foundation with industry configuration, campaign-based discovery workflows, transparent qualification, CSV import, and editable outreach drafts.
 
 > **Current scope:** The repository has moved beyond the original Phase 1 foundation. The implementation includes Phase 2 discovery and preparation features. See [roadmap.md](./roadmap.md) for the recorded delivery checklist.
