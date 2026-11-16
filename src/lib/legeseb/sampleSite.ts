@@ -28,7 +28,7 @@ export function themeFor(industryName = ""): SiteTheme {
 }
 
 export const SAMPLE_LABEL = "Demonstration page · Sample content for discussion only · Not the business's official website";
-export const CREDIT = "Created by Helium20";
+export const CREDIT = "Created by Plutonium31";
 
 /** Builds starter content only from facts already on record; no reviews, results or endorsements. */
 export function generateSampleSite(p: Prospect, industry: Industry | undefined, ws: Workspace, id: string, now = new Date().toISOString()): SampleSite {
@@ -39,7 +39,7 @@ export function generateSampleSite(p: Prospect, industry: Industry | undefined, 
     id,
     prospectId: p.id,
     headline: `${business}${where}`,
-    intro: `A sample ${kind.toLowerCase()} homepage layout prepared by ${ws.name || "Helium20"} to show how ${business} could present its services online. Replace this text with details confirmed by the business.`,
+    intro: `A sample ${kind.toLowerCase()} homepage layout prepared by ${ws.name || "Plutonium31"} to show how ${business} could present its services online. Replace this text with details confirmed by the business.`,
     services: (industry?.services ?? ["Service one", "Service two"]).slice(0, 4),
     cta: p.phone || p.email ? "Contact us" : "Get in touch",
     theme: themeFor(industry?.name),
