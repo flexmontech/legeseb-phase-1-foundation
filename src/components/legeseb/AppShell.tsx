@@ -63,7 +63,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-30 border-b border-sidebar-border bg-sidebar text-sidebar-foreground shadow-sm">
         <div className="flex items-center justify-between gap-4 px-4 py-3 md:px-8">
-          <Link to="/" className="text-lg font-bold tracking-[0.3em] text-sidebar-foreground">Helium20</Link>
+          <Link to="/" className="text-lg font-bold tracking-[0.3em] text-sidebar-foreground">Plutonium31</Link>
           <nav aria-label="Main" className="hidden gap-1 lg:flex">
             {PUBLIC_NAV.map(({ to, label }) => (
               <Link key={to} to={to} activeOptions={{ exact: true }}
@@ -114,7 +114,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         {mounted ? children : null}
       </main>
       <footer className="border-t border-border px-4 py-4 text-xs text-muted-foreground md:px-8">
-        Helium20 · Lead generation for every industry{isPublic ? "" : <> · {mode.kind === "cloud" ? "Live workspace saved online, visible only to its members" : "Demo data is saved in this browser only"}</>}
+        Plutonium31 · Lead generation for every industry{isPublic ? "" : <> · {mode.kind === "cloud" ? "Live workspace saved online, visible only to its members" : "Demo data is saved in this browser only"}</>}
       </footer>
     </div>
   );
