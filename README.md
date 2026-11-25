@@ -1,10 +1,13 @@
-# LEGESEB
+# Plutonium31
 
 **Portfolio division:** Business Applications & Solutions
 
-@Flexmon Intellectual Property © FLEXMON LLC. All rights reserved.
+@Flexmon Intellectual Property © FLEXMON LLC. All rights reserved.  
 Proprietary work. Do not copy without prior written permission or signed contract.
-LEGESEB is a configurable lead-generation and lead-management application for small businesses. It combines a prospect CRM foundation with industry configuration, campaign-based discovery workflows, transparent qualification, CSV import, and editable outreach drafts.
+
+Plutonium31 is a configurable lead-generation and lead-management application for small businesses. It combines a prospect CRM foundation with industry configuration, campaign-based discovery workflows, transparent qualification, CSV import, and editable outreach drafts.
+
+> **Repository note:** The product has been rebranded from Legeseb to Plutonium31. The GitHub repository name and internal source-folder names retain the original project identifier for continuity; the product name is Plutonium31.
 
 > **Current scope:** The repository has moved beyond the original Phase 1 foundation. The implementation includes Phase 2 discovery and preparation features. See [roadmap.md](./roadmap.md) for the recorded delivery checklist.
 
@@ -88,7 +91,7 @@ Do not commit local environment files or secrets. The repository contains a root
 
 ## Important boundaries
 
-- LEGESEB is an independent project. The reference project named in the original build brief is for workflow inspiration only; do not access or reuse its production data, credentials, or database.
+- Plutonium31 is an independent project. The reference project named in the original build brief is for workflow inspiration only; do not access or reuse its production data, credentials, or database.
 - Do not claim that the application is production-ready for multi-tenant use without verifying authentication, authorization, backend row-level policies, and workspace isolation.
 - Website readiness checks are limited to supplied URL format/HTTPS signals; they are not a security scan, SEO audit, or live website assessment.
 - Outreach is draft-only. There is no email, SMS, or calling provider sending messages.
