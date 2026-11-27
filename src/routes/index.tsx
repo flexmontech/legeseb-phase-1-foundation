@@ -6,6 +6,7 @@ import b2c from "@/assets/aud-b2c.jpg";
 import industries from "@/assets/industries.jpg";
 import { useAppState } from "@/lib/legeseb/store";
 import { INDUSTRY_CATALOG } from "@/lib/legeseb/industryCatalog";
+import { Matchmaker } from "@/components/legeseb/Matchmaker";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -59,6 +60,8 @@ function Home() {
           </dl>
         </div>
       </section>
+
+      <Matchmaker />
 
       <section className="mx-auto max-w-7xl px-6 py-20">
         <h2 className="text-3xl font-semibold">How it works</h2>

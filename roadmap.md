@@ -10,3 +10,4 @@
 - [x] Phase 2 item 4: optional sample websites per selected prospect
 - [x] Phase 2 item 5: sign-in, live client workspaces with backend isolation (tested)
 - [x] Phase 2 item 6: acceptance and handoff summary
+- [x] AI Business Matchmaker on the homepage (describe business → audience, industry, sample-site style)
