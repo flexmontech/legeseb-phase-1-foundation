@@ -7,9 +7,9 @@ export const Route = createFileRoute("/pipeline")({
     meta: [
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "Pipeline — LEGESEB" },
+      { title: "Outreach & Pipeline — LEGESEB" },
       { name: "description", content: "Move prospects through the LEGESEB pipeline stages." },
-      { property: "og:title", content: "Pipeline — LEGESEB" },
+      { property: "og:title", content: "Outreach & Pipeline — LEGESEB" },
       { property: "og:description", content: "Move prospects through the LEGESEB pipeline stages." },
     ],
   }),
@@ -23,7 +23,7 @@ function Pipeline() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-semibold">Pipeline</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3"><h1 className="text-2xl font-semibold">Outreach & Pipeline</h1><Link to="/dashboard" className="text-sm text-primary underline">Dashboard summary</Link></div>
       <div className="grid gap-4 md:grid-cols-5">
         {s.stages.map((st) => {
           const items = list.filter((p) => p.stageId === st.id);
@@ -50,6 +50,7 @@ function Pipeline() {
                         <option key={o.id} value={o.id}>{o.name}</option>
                       ))}
                     </select>
+                    <Link to="/prospects/$id" params={{ id: p.id }} className="mt-2 block text-xs text-primary underline">Details & outreach drafts</Link>
                   </li>
                 ))}
               </ul>

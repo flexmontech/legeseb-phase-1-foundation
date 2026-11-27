@@ -23,8 +23,8 @@ export const Route = createFileRoute("/")({
 });
 
 const STEPS = [
-  { icon: Target, title: "Pick your audience", text: "Choose B2B or B2C and the industry you want to reach.", to: "/audiences" },
-  { icon: Search, title: "Search industries", text: "Browse 165+ industries and turn any into a target.", to: "/industries" },
+  { icon: Target, title: "Pick your audience", text: "Choose B2B or B2C and the industry you want to reach.", to: "/discovery" },
+  { icon: Search, title: "Find real businesses", text: "Search business listings by industry and location.", to: "/discovery" },
   { icon: PenLine, title: "Find & qualify", text: "Add or import prospects and see transparent match scores.", to: "/discovery" },
   { icon: KanbanSquare, title: "Work the pipeline", text: "Move prospects from Discovered to Won.", to: "/pipeline" },
 ] as const;
@@ -46,8 +46,8 @@ function Home() {
             One template, any industry. Search markets, qualify prospects honestly, draft outreach, and track every deal to the win.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/industries" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90">
-              Explore industries <ArrowRight className="h-4 w-4" />
+            <Link to="/discovery" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90">
+              Find leads <ArrowRight className="h-4 w-4" />
             </Link>
             <Link to="/pipeline" className="inline-flex items-center gap-2 rounded-full border border-primary/40 px-6 py-3 font-medium text-primary hover:bg-secondary">
               Open the pipeline
@@ -67,7 +67,7 @@ function Home() {
         <h2 className="text-3xl font-semibold">How it works</h2>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map(({ icon: Icon, title, text, to }, i) => (
-            <Link key={to} to={to} className="group rounded-2xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+            <Link key={title} to={to} className="group rounded-2xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
               <div className="mb-4 flex items-center gap-3">
                 <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground"><Icon className="h-5 w-5" /></span>
                 <span className="text-xs text-muted-foreground">Step {i + 1}</span>
@@ -80,9 +80,9 @@ function Home() {
       </section>
 
       <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-20 md:grid-cols-3">
-        <Tile img={b2b} title="Business clients" text="Offices, agencies, IT and trade buyers." to="/audiences" />
-        <Tile img={b2c} title="Consumer audiences" text="Patients, guests and homeowners — consent-based only." to="/audiences" />
-        <Tile img={industries} title="Every local trade" text="From nail salons to HVAC to AI services." to="/industries" />
+        <Tile img={b2b} title="Business clients" text="Offices, agencies, IT and trade buyers." to="/discovery" />
+        <Tile img={b2c} title="Consumer audiences" text="Patients, guests and homeowners — consent-based only." to="/discovery" />
+        <Tile img={industries} title="Every local trade" text="From nail salons to HVAC to AI services." to="/discovery" />
       </section>
     </div>
   );
@@ -97,7 +97,7 @@ function Fact({ n, l }: { n: number; l: string }) {
   );
 }
 
-function Tile({ img, title, text, to }: { img: string; title: string; text: string; to: "/audiences" | "/industries" }) {
+function Tile({ img, title, text, to }: { img: string; title: string; text: string; to: "/discovery" | "/industries" }) {
   return (
     <Link to={to} className="group relative block h-80 overflow-hidden rounded-2xl">
       <img src={img} alt={title} loading="lazy" width={1200} height={800} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />

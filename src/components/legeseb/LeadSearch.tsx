@@ -6,6 +6,8 @@ import { Loader2, Search } from "lucide-react";
 import { searchLeads, type FoundBusiness } from "@/lib/legeseb/leadSearch.functions";
 import { update, useAppState, useMode } from "@/lib/legeseb/store";
 import { uid, type Industry } from "@/lib/legeseb/model";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 /** Real business search for one industry; results become prospects only when the user saves them. */
 export function LeadSearch({ industry }: { industry: Industry }) {
@@ -28,14 +30,15 @@ export function LeadSearch({ industry }: { industry: Industry }) {
   }
 
   return (
-    <section className="rounded-2xl border border-border bg-card p-5">
+    <section className="space-y-3 py-2">
+      <h2 className="font-semibold">Live business search</h2>
       <form className="flex flex-wrap items-end gap-3" onSubmit={(e) => { e.preventDefault(); m.mutate(); }}>
         <label className="grid gap-1.5 text-sm">Location
-          <input required minLength={2} value={location} onChange={(e) => setLocation(e.target.value)} className="h-9 rounded-md border border-input bg-background px-2 text-sm" />
+          <Input required minLength={2} value={location} onChange={(e) => setLocation(e.target.value)} />
         </label>
-        <button type="submit" disabled={m.isPending} className="inline-flex h-9 items-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-60">
+        <Button type="submit" disabled={m.isPending} className="h-auto min-h-9 max-w-full whitespace-normal text-left">
           {m.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />} Find leads for {industry.name} now
-        </button>
+        </Button>
       </form>
       <p className="mt-2 text-xs text-muted-foreground">Searches public Google Maps business listings (up to 20 per search). Businesses only, never private consumer contacts.</p>
       {m.isError && <p className="mt-3 text-sm text-destructive">Please <Link to="/auth" className="underline">sign in</Link> to search for real leads.</p>}
@@ -48,10 +51,10 @@ export function LeadSearch({ industry }: { industry: Industry }) {
               <div className="min-w-0">
                 <div className="truncate font-medium">{b.name}</div>
                 <div className="truncate text-xs text-muted-foreground">{b.address}{b.phone && ` · ${b.phone}`}</div>
-                {b.website && <a href={b.website} target="_blank" rel="noreferrer" className="text-xs text-accent underline">{b.website}</a>}
+                {b.website && <a href={b.website} target="_blank" rel="noreferrer" className="break-all text-xs text-accent underline">{b.website}</a>}
               </div>
               {saved(b) ? <span className="shrink-0 text-xs text-muted-foreground">Saved</span> : (
-                <button onClick={() => save(b)} className="shrink-0 rounded-full border border-border px-3 py-1 text-sm hover:bg-muted">Save as prospect</button>
+                <Button variant="outline" size="sm" onClick={() => save(b)}>Save as prospect</Button>
               )}
             </li>
           ))}

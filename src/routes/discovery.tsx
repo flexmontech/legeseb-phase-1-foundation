@@ -5,20 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CampaignEditor } from "@/components/legeseb/CampaignEditor";
 import { CSVImport } from "@/components/legeseb/CSVImport";
+import { AudienceTarget } from "@/components/legeseb/AudienceTarget";
+import { LeadSearch } from "@/components/legeseb/LeadSearch";
 import { ProspectForm } from "@/components/legeseb/ProspectForm";
 import { update, useAppState } from "@/lib/legeseb/store";
-import { uid } from "@/lib/legeseb/model";
+import { uid, setActiveIndustry } from "@/lib/legeseb/model";
 import { provenance, qualify } from "@/lib/legeseb/phase2";
 
 export const Route = createFileRoute("/discovery")({
   head: () => ({ meta: [
-    { title: "Find prospects — LEGESEB" }, { name: "description", content: "Campaign sourcing, authorized CSV imports and transparent qualification in LEGESEB." },
-    { property: "og:title", content: "Find prospects — LEGESEB" }, { property: "og:description", content: "Campaign sourcing, authorized CSV imports and transparent qualification in LEGESEB." },
+    { title: "Lead Finder — LEGESEB" }, { name: "description", content: "Choose your audience and industry, search real business listings, import leads and qualify prospects in LEGESEB." },
+    { property: "og:title", content: "Lead Finder — LEGESEB" }, { property: "og:description", content: "Industry targeting, live business search, campaign qualification and authorized CSV imports in one place." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
   ] }), component: Discovery,
 });
 function Discovery() {
   const s = useAppState();
+  const active = s.industries.find(i => i.id === s.activeIndustryId);
   const campaigns = s.campaigns ?? [];
   const [selected, setSelected] = useState("");
   const [editing, setEditing] = useState<"new" | "edit" | null>(null);
@@ -31,14 +34,17 @@ function Discovery() {
   const c = campaigns.find(x => x.id === selected) ?? campaigns[0];
   const candidates = c ? s.prospects.filter(p => p.industryId === c.industryId && p.type === c.type && (!onlyAssigned || p.campaignId === c.id) && (!source || provenance(p) === source) && (!location.trim() || p.location?.toLowerCase().includes(location.trim().toLowerCase()))).map(p => ({ p, score: qualify(p, c) })).filter(x => minimum === 0 || (x.score.score !== null && x.score.score >= minimum)) : [];
   return <div className="space-y-5">
-    <div className="flex flex-wrap items-center justify-between gap-3"><h1 className="text-2xl font-semibold">Find prospects</h1><Button onClick={() => setEditing("new")}><Plus className="h-4 w-4" />New campaign</Button></div>
+    <h1 className="text-2xl font-semibold">Lead Finder</h1>
+    <AudienceTarget />
+    {active ? <LeadSearch key={active.id} industry={active} /> : <p className="text-sm text-muted-foreground">Select a target industry to search real businesses.</p>}
+    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5"><h2 className="text-lg font-semibold">Campaigns & sourcing</h2><Button onClick={() => setEditing("new")}><Plus className="h-4 w-4" />New campaign</Button></div>
     {editing && <CampaignEditor key={editing === "edit" ? c?.id : "new"} initial={editing === "edit" ? c : undefined} onClose={id => { setEditing(null); if (id) setSelected(id); }} />}
     {campaigns.length === 0 && !editing && <p className="text-sm text-muted-foreground">No campaigns yet.</p>}
     {c && <>
-      <div className="flex flex-wrap items-end gap-3"><label className="grid gap-1.5 text-sm">Campaign<select aria-label="Campaign" className="h-9 max-w-full rounded-md border border-input bg-card px-2 text-sm" value={c.id} onChange={e => { setSelected(e.target.value); setMode("list"); setStatus(""); }}>{campaigns.map(x => <option key={x.id} value={x.id}>{x.name}</option>)}</select></label><Button variant="outline" onClick={() => setEditing("edit")}><Pencil className="h-4 w-4" />Edit campaign</Button></div>
+      <div className="flex flex-wrap items-end gap-3"><label className="grid gap-1.5 text-sm">Campaign<select aria-label="Campaign" className="h-9 max-w-full rounded-md border border-input bg-card px-2 text-sm" value={c.id} onChange={e => { setSelected(e.target.value); setMode("list"); setStatus(""); }}>{campaigns.map(x => <option key={x.id} value={x.id}>{x.name}</option>)}</select></label><Button variant="outline" onClick={() => setEditing("edit")}><Pencil className="h-4 w-4" />Edit campaign</Button><Button variant="outline" onClick={() => update(st => setActiveIndustry(st, c.industryId))}>Use campaign industry for search</Button></div>
       <dl className="grid gap-3 border-y border-border py-4 text-sm sm:grid-cols-3">{[["Offering", c.offering], ["Industry / type", `${s.industries.find(i => i.id === c.industryId)?.name ?? c.industryId} · ${c.type}`], ["Target location", c.location || "Any / unknown"], ["Objective", c.objective], ["Call to action", c.cta]].map(([k, v]) => <div key={k}><dt className="text-xs text-muted-foreground">{k}</dt><dd className="break-words">{v}</dd></div>)}</dl>
       <div className="flex flex-wrap gap-2" role="group" aria-label="Sourcing mode">{(["list", "manual", "csv"] as const).map(m => <Button key={m} variant={mode === m ? "default" : "outline"} aria-pressed={mode === m} onClick={() => { setMode(m); setStatus(""); }}>{m === "list" ? "Saved prospects" : m === "manual" ? "Manual entry" : "CSV import"}</Button>)}</div>
-      <p className="text-xs text-muted-foreground">Connected provider: not connected. No external search is performed.{c.type === "B2C" ? " B2C sources must be authorized client-provided or consent-based; business directories do not supply consumer leads." : " Public business sources identify businesses, not authorized consumer contacts."}</p>
+      <p className="text-xs text-muted-foreground">{c.type === "B2C" ? "B2C imports must be authorized client-provided or consent-based; business directories do not supply consumer leads." : "Campaign matching uses saved prospects. Live business search results appear above and are saved only when selected."}</p>
       {mode === "manual" && <ProspectForm key={c.id} initial={{ campaignId: c.id, industryId: c.industryId, type: c.type, recordSource: "Manual" }} submitLabel="Save prospect" onCancel={() => setMode("list")} onSubmit={input => {
         const now = new Date().toISOString(); update(st => ({ ...st, prospects: [{ ...input, recordSource: "Manual", id: uid(), workspaceId: st.workspace.id, createdAt: now, updatedAt: now }, ...st.prospects] })); setMode("list"); setStatus("Prospect saved.");
       }} />}

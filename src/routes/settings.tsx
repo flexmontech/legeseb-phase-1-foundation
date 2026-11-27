@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,7 +32,7 @@ function SettingsPage() {
 
   return (
     <div className="max-w-3xl space-y-6">
-      <h1 className="text-2xl font-semibold">Settings</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3"><h1 className="text-2xl font-semibold">Settings</h1><Button asChild variant="outline"><Link to="/workspaces">Manage workspaces / Sign in</Link></Button></div>
       {saved && <p role="status" className="text-sm text-accent">{saved}</p>}
 
       <section className={card}>

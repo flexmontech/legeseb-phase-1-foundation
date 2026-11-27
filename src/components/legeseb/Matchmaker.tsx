@@ -4,7 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Sparkles, ArrowRight, Loader2 } from "lucide-react";
 import { recommendMatch } from "@/lib/legeseb/matchmaker.functions";
-import { THEMES } from "@/lib/legeseb/sampleSite";
 
 const EXAMPLES = [
   { business: "Family dental practice in Lincoln Park offering cleanings, whitening and implants", customers: "Local families and young professionals", goal: "Fill more new-patient appointments" },
@@ -25,7 +24,7 @@ export function Matchmaker() {
         <div>
           <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary"><Sparkles className="h-4 w-4" /> Business matchmaker</p>
           <h2 className="mt-3 text-3xl font-semibold">Tell us about your business</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Describe what you do and who you serve. We'll recommend your audience, industry and a sample website style.</p>
+          <p className="mt-2 text-sm text-muted-foreground">Describe what you do and who you serve. We'll suggest an audience and industry to start your lead search.</p>
           <div className="mt-4 flex flex-wrap gap-2">
             {EXAMPLES.map((e) => (
               <button key={e.business} type="button" onClick={() => setForm(e)} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:bg-secondary">
@@ -57,7 +56,6 @@ export function Matchmaker() {
               <dl className="grid gap-4 sm:grid-cols-2">
                 <div><dt className="text-xs uppercase tracking-wider text-muted-foreground">Industry</dt><dd className="font-semibold">{res.industry}</dd></div>
                 <div><dt className="text-xs uppercase tracking-wider text-muted-foreground">Audience</dt><dd className="font-semibold">{res.audience}</dd><p className="text-xs text-muted-foreground">{res.audienceReason}</p></div>
-                <div><dt className="text-xs uppercase tracking-wider text-muted-foreground">Site style</dt><dd className="font-semibold">{THEMES.find((t) => t.id === res.theme)?.label}</dd><p className="text-xs text-muted-foreground">{res.themeReason}</p></div>
                 <div><dt className="text-xs uppercase tracking-wider text-muted-foreground">Services to feature</dt><dd className="text-sm">{res.services.join(", ")}</dd></div>
               </dl>
               <div>
@@ -65,9 +63,7 @@ export function Matchmaker() {
                 <ol className="mt-1 list-decimal space-y-1 pl-5 text-sm">{res.firstSteps.map((s) => <li key={s}>{s}</li>)}</ol>
               </div>
               <div className="flex flex-wrap gap-2">
-                <Link to="/industries" className="rounded-full bg-primary px-4 py-2 text-sm text-primary-foreground">Explore this industry</Link>
-                <Link to="/showcase" className="rounded-full border border-border px-4 py-2 text-sm hover:bg-secondary">See sample sites</Link>
-                <Link to="/audiences" className="rounded-full border border-border px-4 py-2 text-sm hover:bg-secondary">Audiences</Link>
+                <Link to="/discovery" className="rounded-full bg-primary px-4 py-2 text-sm text-primary-foreground">Open Lead Finder</Link>
               </div>
               <p className="text-xs text-muted-foreground">AI suggestion only — review before acting.</p>
             </div>

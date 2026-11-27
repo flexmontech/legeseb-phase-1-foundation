@@ -4,24 +4,14 @@ import { useAppState, update, useMode } from "@/lib/legeseb/store";
 import { supabase } from "@/integrations/supabase/client";
 import { closeWorkspace, lastWorkspaceId, openWorkspace } from "@/lib/legeseb/workspaces";
 import { ALL, setActiveIndustry } from "@/lib/legeseb/model";
-import { Lock } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-// Public lane: what visitors see. The operator portal is a separate, secondary bar.
-const PUBLIC_NAV = [
-  { to: "/", label: "Home" },
-  { to: "/audiences", label: "Clients & Audiences" },
-  { to: "/industries", label: "Industry Explorer" },
-  { to: "/showcase", label: "Sample Showcase" },
-] as const;
-
+// One business workflow; the homepage remains reachable through the brand and Public site.
 const NAV = [
-  { to: "/dashboard", label: "Dashboard" },
-  { to: "/discovery", label: "Find Prospects" },
+  { to: "/discovery", label: "Lead Finder" },
   { to: "/prospects", label: "Prospects" },
-  { to: "/pipeline", label: "Pipeline" },
+  { to: "/pipeline", label: "Outreach & Pipeline" },
   { to: "/settings", label: "Settings" },
-  { to: "/internal", label: "Internal" },
-  { to: "/workspaces", label: "Workspaces" },
 ] as const;
 
 export function IndustrySelect() {
@@ -57,57 +47,36 @@ export function AppShell({ children }: { children: ReactNode }) {
   const s = useAppState();
   const path = useRouterState({ select: (r) => r.location.pathname });
   const fullBleed = path === "/";
-  const isPublic = PUBLIC_NAV.some((n) => n.to === path) || path.startsWith("/auth");
+  const isPublic = path === "/" || path.startsWith("/auth") || path.startsWith("/sample/");
 
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-30 border-b border-sidebar-border bg-sidebar text-sidebar-foreground shadow-sm">
         <div className="flex items-center justify-between gap-4 px-4 py-3 md:px-8">
-          <Link to="/" className="text-lg font-bold tracking-[0.3em] text-sidebar-foreground">Plutonium31</Link>
+          <Link to="/" className="min-w-0 truncate text-lg font-bold text-sidebar-foreground">Plutonium31</Link>
           <nav aria-label="Main" className="hidden gap-1 lg:flex">
-            {PUBLIC_NAV.map(({ to, label }) => (
-              <Link key={to} to={to} activeOptions={{ exact: true }}
-                className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-foreground/15"
-                activeProps={{ className: "bg-card !text-destructive font-semibold shadow-sm" }}>{label}</Link>
+            {NAV.map(({ to, label }) => (
+              <Button key={to} asChild variant="ghost" className="text-sidebar-foreground hover:bg-sidebar-foreground/15 hover:text-sidebar-foreground">
+                <Link to={to} activeProps={{ className: "bg-card !text-destructive" }}>{label}</Link>
+              </Button>
             ))}
           </nav>
-          <Link to={isPublic ? "/dashboard" : "/"}
-            className="whitespace-nowrap rounded-md border border-sidebar-foreground/40 px-3 py-1.5 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-foreground/15">
-            {isPublic ? "Operator Portal" : "← Public site"}
-          </Link>
+          <Button asChild variant="ghost" className="shrink-0 border border-sidebar-foreground/40 text-sidebar-foreground hover:bg-sidebar-foreground/15 hover:text-sidebar-foreground">
+            <Link to={isPublic ? "/discovery" : "/"}>{isPublic ? "Open app" : "← Public site"}</Link>
+          </Button>
         </div>
         <nav aria-label="Main" className="flex gap-1 overflow-x-auto px-2 pb-2 lg:hidden">
-          {PUBLIC_NAV.map(({ to, label }) => (
-            <Link key={to} to={to} activeOptions={{ exact: true }}
-              className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-foreground/15"
-              activeProps={{ className: "bg-card !text-destructive font-semibold shadow-sm" }}>{label}</Link>
+          {NAV.map(({ to, label }) => (
+            <Button key={to} asChild variant="ghost" size="sm" className="shrink-0 text-sidebar-foreground hover:bg-sidebar-foreground/15 hover:text-sidebar-foreground">
+              <Link to={to} activeProps={{ className: "bg-card !text-destructive" }}>{label}</Link>
+            </Button>
           ))}
         </nav>
       </header>
-      {!isPublic && (
-        <div className="border-b border-border bg-card">
-          <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2 md:px-8">
-            <nav aria-label="Operator portal" className="flex gap-1 overflow-x-auto">
-              {NAV.map(({ to, label }) => (
-                <Link key={to} to={to}
-                  className="flex items-center gap-1.5 whitespace-nowrap rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
-                  activeProps={{ className: "bg-secondary !text-foreground font-semibold" }}>
-                  {to === "/internal" && <Lock className="h-3.5 w-3.5" />} {label}
-                </Link>
-              ))}
-            </nav>
-            {mounted && (
-              <div className="hidden items-center gap-3 text-xs text-muted-foreground md:flex">
-                <span>{s.workspace.name} · {mode.kind === "cloud" ? "Live workspace" : "Demo (this browser)"}</span>
-                <IndustrySelect />
-              </div>
-            )}
-          </div>
-        </div>
-      )}
       {mounted && !isPublic && (
-        <div className="border-b border-border bg-card px-4 py-2 md:hidden">
-          <IndustrySelect />
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-card px-4 py-2 text-xs text-muted-foreground md:px-8">
+          <span className="min-w-0 break-words">{s.workspace.name} · {mode.kind === "cloud" ? "Live workspace" : "Demo (this browser)"}</span>
+          {path !== "/discovery" && <IndustrySelect />}
         </div>
       )}
       <main className={fullBleed ? "flex-1" : "mx-auto w-full max-w-7xl flex-1 px-4 py-6 md:px-8"}>
