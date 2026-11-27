@@ -68,6 +68,7 @@ export function resetDemo() {
 }
 
 const serverSnapshot = createSeedState("1970-01-01T00:00:00.000Z");
+const serverMode: Mode = { kind: "demo" };
 
 export function useAppState(): AppState {
   return useSyncExternalStore(
@@ -81,7 +82,7 @@ export function useMode(): Mode {
   return useSyncExternalStore(
     (l) => { listeners.add(l); return () => listeners.delete(l); },
     () => mode,
-    () => ({ kind: "demo" }) as Mode,
+    () => serverMode,
   );
 }
 

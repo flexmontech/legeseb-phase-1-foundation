@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAppState, update } from "@/lib/legeseb/store";
 import { uid, type Prospect } from "@/lib/legeseb/model";
 import { generateDraft, type Channel, type Campaign } from "@/lib/legeseb/phase2";
+import { renderTemplate, templateContext, templatesForChannel } from "@/lib/legeseb/templates";
 
 export function OutreachDrafts({ prospect, campaign }: { prospect: Prospect; campaign: Campaign }) {
   const [channel, setChannel] = useState<Channel>("email");
@@ -22,9 +23,25 @@ function DraftEditor({ prospect, campaign, channel }: { prospect: Prospect; camp
   const [draft, setDraft] = useState(saved ? { subject: saved.subject, body: saved.body } : generate());
   const [status, setStatus] = useState("");
   const ready = !!(s.workspace.name.trim() && campaign.offering.trim() && campaign.objective.trim() && campaign.cta.trim());
+  const industryName = s.industries.find(i => i.id === campaign.industryId)?.name ?? "";
+  const samples = templatesForChannel(channel);
+  const [sampleId, setSampleId] = useState("");
+  const loadSample = (id: string) => {
+    const tpl = samples.find(t => t.id === id);
+    if (!tpl) return;
+    const rendered = renderTemplate(tpl, templateContext(prospect, campaign, s.workspace, industryName));
+    setDraft({ subject: channel === "email" ? rendered.subject : "", body: rendered.body });
+    setStatus(`Loaded "${tpl.name}". Review and edit before use.`);
+  };
   return <div className="space-y-3">
     <p className="text-xs text-muted-foreground">Draft only · {campaign.name} · Nothing is sent and no call is initiated. Confirm permission and review all facts before use.</p>
     {!ready && <p role="alert" className="text-sm">Complete client identity, actual services, objective and call to action before creating a draft.</p>}
+    <label className="grid gap-1.5 text-sm">Reusable sample
+      <select aria-label="Reusable outreach sample" className="h-9 rounded-md border border-input bg-card px-2 text-sm" value={sampleId} onChange={e => { setSampleId(e.target.value); loadSample(e.target.value); }}>
+        <option value="">Choose a sample to load…</option>
+        {samples.map(t => <option key={t.id} value={t.id}>{t.name} — {t.purpose}</option>)}
+      </select>
+    </label>
     {channel === "email" && <label className="grid gap-1.5 text-sm">Subject<Input value={draft.subject} onChange={e => { setDraft(x => ({ ...x, subject: e.target.value })); setStatus("Unsaved changes"); }} /></label>}
     <label className="grid gap-1.5 text-sm">{channel === "call" ? "Call script draft" : "Message draft"}<Textarea aria-label={channel === "call" ? "Call script draft" : "Message draft"} rows={10} value={draft.body} onChange={e => { setDraft(x => ({ ...x, body: e.target.value })); setStatus("Unsaved changes"); }} /></label>
     <div className="flex flex-wrap gap-2">
