@@ -11,3 +11,4 @@
 - [x] Phase 2 item 5: sign-in, live client workspaces with backend isolation (tested)
 - [x] Phase 2 item 6: acceptance and handoff summary
 - [x] AI Business Matchmaker on the homepage (describe business → audience, industry, sample-site style)
+- [x] Real lead search (Google Maps business listings) behind 'Find leads for [Industry] now' in Industry Explorer

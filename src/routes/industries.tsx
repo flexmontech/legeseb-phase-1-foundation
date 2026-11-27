@@ -4,6 +4,7 @@ import { Search, Check, Plus } from "lucide-react";
 import banner from "@/assets/industries.jpg";
 import { INDUSTRY_CATALOG } from "@/lib/legeseb/industryCatalog";
 import { useAppState, update, getState } from "@/lib/legeseb/store";
+import { LeadSearch } from "@/components/legeseb/LeadSearch";
 import { addIndustry, setActiveIndustry, type TargetType } from "@/lib/legeseb/model";
 
 export const Route = createFileRoute("/industries")({
@@ -67,6 +68,11 @@ function Explorer() {
           </label>
         </div>
       </section>
+
+      {(() => {
+        const cur = s.industries.find((i) => i.id === s.activeIndustryId);
+        return cur ? <LeadSearch key={cur.id} industry={cur} /> : <p className="rounded-xl border border-dashed border-border p-4 text-sm text-muted-foreground">Pick an industry below with "Add as target" to search real businesses for it.</p>;
+      })()}
 
       {businesses.length > 0 && (
         <section>
