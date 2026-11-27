@@ -12,7 +12,7 @@
 - [x] Phase 2 item 6: acceptance and handoff summary
 - [x] AI Business Matchmaker on the homepage (describe business → audience, industry, sample-site style)
 - [x] Real lead search (Google Maps business listings) behind 'Find leads for [Industry] now' in Industry Explorer
-- [ ] Consolidate Industry Explorer and Find Prospects into Lead Finder; absorb audience selection
-- [ ] Absorb client profile/workspace access into Settings; streamline four-tab navigation
-- [ ] Retire Showcase/Internal navigation and sample creation without erasing saved records
-- [ ] Verify consolidated sourcing, redirects, persistence, and desktop/mobile navigation
+- [x] Consolidate Industry Explorer and Find Prospects into Lead Finder; absorb audience selection
+- [x] Absorb client profile/workspace access into Settings; streamline four-tab navigation
+- [x] Retire Showcase/Internal navigation and sample creation without erasing saved records
+- [x] Verify consolidated sourcing, redirects, persistence, and desktop/mobile navigation

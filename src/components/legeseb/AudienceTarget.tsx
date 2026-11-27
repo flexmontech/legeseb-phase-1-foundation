@@ -42,14 +42,14 @@ export function AudienceTarget() {
         <Input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="e.g. dental, roofing, IT…" />
       </label>
       <label className="grid min-w-0 gap-1.5 text-sm">Target industry
-        <select className="h-9 w-full min-w-0 rounded-md border border-input bg-background px-2" value={active?.name ?? ""} onChange={e => target(e.target.value)}>
+        <select aria-label="Target industry" className="h-9 w-full min-w-0 rounded-md border border-input bg-background px-2" value={active?.name ?? ""} onChange={e => target(e.target.value)}>
           <option value="">Select an industry</option>
           <optgroup label="Your target industries">{s.industries.filter(i => i.id === active?.id || matches(i.name)).map(i => <option key={i.id} value={i.name}>{i.name}</option>)}</optgroup>
           <optgroup label="Industry catalog">{catalog.filter(i => matches(i.name)).map(i => <option key={i.name} value={i.name}>{i.name}</option>)}</optgroup>
         </select>
       </label>
       <label className="grid gap-1.5 text-sm">Target audience
-        <select disabled={!active} className="h-9 rounded-md border border-input bg-background px-2" value={active?.targetType ?? "B2B"} onChange={e => {
+        <select aria-label="Target audience" disabled={!active} className="h-9 rounded-md border border-input bg-background px-2" value={active?.targetType ?? "B2B"} onChange={e => {
           const targetType = e.target.value as TargetType;
           update(st => ({ ...st, industries: st.industries.map(i => i.id === active?.id ? { ...i, targetType } : i) }));
         }}>
